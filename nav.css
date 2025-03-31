@@ -1,0 +1,265 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: black;
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #000000;
+    padding: 12px 24px;
+    height: 8vh;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-left .logo {
+    width: clamp(50px, 10vw, 120px);
+    height: auto;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.nav-left .logo:hover {
+    opacity: 1;
+}
+
+.nav-center {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 30px;
+}
+
+.home-icon {
+    width: clamp(24px, 1vw, 32px);
+    height: auto;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.logo:hover, .home-icon:hover {
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #2a2a2a;
+    border-radius: 20px;
+    padding: 8px 16px;
+    width: clamp(180px, 22vw, 340px);
+    border: 1px solid #333333;
+    transition: all 0.2s ease;
+}
+
+.search-bar:hover, .search-bar:focus-within {
+    background-color: #333333;
+    border-color: #444444;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.search-icon {
+    color: #aaaaaa;
+    width: 16px;
+    margin-right: 10px;
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1vw;
+    flex: 1;
+    caret-color: #1DB954;
+}
+
+.search-bar input::placeholder {
+    color: #888888;
+    opacity: 0.8;
+}
+
+.mobile-search-icon {
+    width: 24px;
+    color: white;
+    display: none;
+    opacity: 0.8;
+}
+
+.mobile-search-icon:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.nav-right .settings-icon {
+    width: 18px;
+    height: auto;
+    opacity: 0.8;
+}
+
+.nav-right .settings-icon:hover {
+    opacity: 1;
+}
+
+.nav-right span {
+    font-size: 14px;
+    opacity: 0.8;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.nav-right span:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.nav-right button {
+    width: 80px;
+    height: 36px;
+    border-radius: 20px;
+    background: linear-gradient(to right, #FF69B4, #00CED1);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.nav-right button:last-child {
+    background: linear-gradient(to right, #00CED1, #7B68EE);
+}
+
+.nav-right button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+    display: flex;
+    height: calc(100vh - 16vh);
+}
+
+/* Medium screens (tablets) */
+@media screen and (max-width: 992px) {
+    .nav {
+        padding: 10px 20px;
+        height: 60px;
+    }
+    
+    .nav-center {
+        gap: 15px;
+    }
+    
+    .search-bar {
+        width: clamp(130px, 18vw, 250px);
+        padding: 6px 12px;
+    }
+    
+    .nav-right {
+        gap: 12px;
+    }
+    
+    .nav-right button {
+        width: 70px;
+        height: 32px;
+        font-size: 13px;
+    }
+    
+    .sidebar {
+        width: 220px;
+    }
+    
+    .container {
+        height: calc(100vh - 60px);
+    }
+}
+
+
+
+/* Phones */
+@media screen and (max-width: 650px) {
+    .nav {
+        padding: 8px 12px;
+        height: 50px;
+    }
+    
+    .nav-left .logo {
+        width: clamp(40px, 7vw, 80px);
+    }
+    
+    .nav-center {
+        position: static;
+        transform: none;
+        margin-left: 10px;
+        gap: 8px;
+        flex: 1;
+        justify-content: center;
+    }
+    
+    .search-bar {
+        display: none;
+    }
+    
+    .mobile-search-icon {
+        display: block;
+    }
+    
+    .nav-right {
+        gap: 8px;
+    }
+    
+    .nav-right span {
+        display: none;
+    }
+    
+    .nav-right button {
+        width: 60px;
+        height: 28px;
+        font-size: 11px;
+        border-radius: 14px;
+    }
+    
+    .container {
+        flex-direction: column;
+        height: calc(100vh - 50px);
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        min-height: 80px;
+        max-height: 30vh;
+        border-right: none;
+        border-bottom: 1px solid #333333;
+    }
+    
+    .main-content {
+        padding: 16px;
+        height: 70vh;
+    }
+}

@@ -1,0 +1,12 @@
+.sidebar {
+    width: 25vw;
+    height: auto;
+    overflow-y: auto ;
+    scrollbar-width: thin;
+    scrollbar-color: #555555 #121212;
+}
+.library{
+    background-color: #141414;
+    border-radius: 10px;
+    height: 100vh;
+}
