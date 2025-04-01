@@ -1,14 +1,8 @@
-
 .main-content {
-    flex: 1;
-    padding: 0px 8px;
+    width: 75vw;
+    background-color: #141414;
+    height: 100; 
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #555555 #121212;
-}
-.main{
-    background-color: #141414;
-    height: 100vh;
-    border-radius: 10px;
-
 }

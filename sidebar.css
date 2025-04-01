@@ -1,12 +1,64 @@
 .sidebar {
     width: 25vw;
-    height: auto;
-    overflow-y: auto ;
+    background-color: #141414;
+    height: 100V;
+    /* Changed to 100% of container height */
+    overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #555555 #121212;
 }
-.library{
-    background-color: #141414;
-    border-radius: 10px;
-    height: 100vh;
+
+.libnav {
+    position: sticky;
+    top: 0;
+    padding: 10px;
+    align-items: center;
+    display: flex;
+    height: 10%;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 1);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #111010;
+    gap: 10px;
+}
+
+.libnav img {
+    width: 2vw;
+}
+
+.libnav span {
+    font-size: larger;
+    font-weight: 500;
+    color: #ddd6d6;
+}
+
+.libnav button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ddd6d6;
+    position: absolute;
+    right: 15px;
+    background: linear-gradient(to right, #946f80, #467a7a);
+    border-radius: 30px;
+    padding: 4px 15px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    gap: 5px;
+}
+
+.libnav button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.libnav button>svg {
+    width: 1rem;
+    height: 1rem;
+    fill: white;
 }

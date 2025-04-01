@@ -1,0 +1,18 @@
+.control {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1a1a1a;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px; /* added height, to make sure container height calculation is correct */
+}
+
+.player {
+    color: white;
+}

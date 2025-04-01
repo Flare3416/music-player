@@ -162,6 +162,7 @@ body {
 .container {
     display: flex;
     height: calc(100vh - 16vh);
+    gap: 5px;
 }
 
 /* Medium screens (tablets) */
@@ -190,13 +191,6 @@ body {
         font-size: 13px;
     }
     
-    .sidebar {
-        width: 220px;
-    }
-    
-    .container {
-        height: calc(100vh - 60px);
-    }
 }
 
 
@@ -244,22 +238,4 @@ body {
         border-radius: 14px;
     }
     
-    .container {
-        flex-direction: column;
-        height: calc(100vh - 50px);
-    }
-    
-    .sidebar {
-        width: 100%;
-        height: auto;
-        min-height: 80px;
-        max-height: 30vh;
-        border-right: none;
-        border-bottom: 1px solid #333333;
-    }
-    
-    .main-content {
-        padding: 16px;
-        height: 70vh;
-    }
 }
