@@ -1,8 +1,145 @@
 .main-content {
-    width: 75vw;
+    width: 75%;
     background-color: #141414;
-    height: 100; 
+    height: 100%;
     overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scrollbar */
     scrollbar-width: thin;
     scrollbar-color: #555555 #121212;
+    padding: 0 20px; /* Added padding on sides */
+    box-sizing: border-box; /* Include padding in width calculation */
 }
+
+.playlist {
+    display: flex;
+    margin: 20px 0;
+    gap: 8px;
+    align-items: center;
+}
+
+.playlist span {
+    font-size: 24px;
+    font-weight: 700;
+    font-family: cursive;
+    background: linear-gradient(to right, #FF69B4, #00CED1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.playlist img {
+    width: 22px;
+    margin-top: 3px;
+}
+
+.cardcontainer {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    height: auto;
+    padding-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.card {
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    padding: 12px;
+    height: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.1); /* Subtle background for all cards */
+}
+
+.card:first-child {
+    margin-left: 0; /* Ensure first card aligns properly */
+    border-radius: 12px; /* Ensure border radius is visible */
+}
+
+.card img {
+    border-radius: 8px;
+    width: 100%;
+    max-width: 200px; /* Increased image size */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.card span {
+    margin-top: 10px;
+    font-weight: 700;
+    font-family: cursive;
+    font-size: 16px;
+    color: #ddd6d6;
+    text-align: center;
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    background-color: rgba(0, 0, 0, 0.3); /* Slightly darker on hover */
+    cursor: pointer;
+    z-index: 1; /* Ensure hovered card is on top */
+}
+
+.card .playsvg {
+    display: none;
+    position: absolute;
+    width: 40px; /* Increased size */
+    bottom: 40%;
+    right: 15%;
+    background: none;
+    background-color: transparent;
+    box-shadow: none;
+    filter: none;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .playsvg {
+    display: block;
+    opacity: 1;
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 1200px) {
+    .cardcontainer {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .cardcontainer {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .main-content {
+        width: 100%;
+    }
+    
+    .cardcontainer {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .playlist span {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .cardcontainer {
+        grid-template-columns: 1fr;
+    }
+    
+    .card img {
+        max-width: 180px;
+    }
+}
+

@@ -1,0 +1,60 @@
+.control {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 8vh;
+    background-color: #111010;
+    padding: 0 24px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #333333;
+}
+
+.songinfo {
+    display: flex;
+    align-items: center;
+    width: 30%;
+    min-width: 180px;
+}
+
+.songbutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px; /* Increased gap for better spacing */
+    width: 40%;
+    background: none;
+    background-color: transparent;
+    box-shadow: none;
+    filter: none;
+}
+
+.songbutton img {
+    display: block;
+    width: 24px; /* Set a consistent size */
+    height: 24px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.2s ease;
+}
+
+.songbutton img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* The middle play/pause button should be larger */
+.songbutton img:nth-child(2) {
+    width: 36px;
+    height: 36px;
+}
+
+.songtime {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 30%;
+    min-width: 180px;
+}
