@@ -1,35 +1,109 @@
-<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
-  <!-- Define the gradient for the text and note -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
   <defs>
-    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#ff00ff;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#00f0ff;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#ff007a;stop-opacity:1" />
+    <!-- More vibrant neon gradient -->
+    <linearGradient id="neonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff00ff"/>
+      <stop offset="40%" stop-color="#00ffff"/>
+      <stop offset="70%" stop-color="#ff00ff"/>
+      <stop offset="100%" stop-color="#0080ff"/>
     </linearGradient>
+    
+    <!-- Improved glow effects -->
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+      <feComposite in="blur" in2="SourceGraphic" operator="atop"/>
+    </filter>
+    
+    <filter id="subtleGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    
+    <!-- Pulsing animation -->
+    <animateTransform 
+      id="pulse" 
+      attributeName="transform" 
+      type="scale" 
+      values="1;1.05;1" 
+      dur="4s" 
+      repeatCount="indefinite"
+      additive="sum"/>
   </defs>
 
-  <!-- Background (optional, for contrast) -->
-
-
-  <!-- Musical note with a funky tilt -->
-  <g transform="rotate(15 30 50)">
-    <path
-      d="M30 20 Q 35 10, 40 20 Q 35 30, 30 20 M40 20 V60 M40 60 A 5 5 0 0 1 35 65 H 25 A 5 5 0 0 1 20 60 V55 A 5 5 0 0 0 25 50 H 35 A 5 5 0 0 0 40 55 V60"
-      fill="url(#grad1)"
-      stroke="none"
-    />
+  <!-- Main music note with animation -->
+  <path d="M200 150 C250 120, 300 130, 320 180 C340 230, 300 280, 250 290 C200 300, 150 260, 140 210 C130 160, 150 110, 200 95 Z" 
+        fill="none" stroke="url(#neonGradient)" stroke-width="10" stroke-linecap="round" 
+        filter="url(#glow)" opacity="0.9" transform-origin="250 250">
+    <animate attributeName="opacity" values="0.7;0.9;0.7" dur="3s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- Headphones with better curve -->
+  <path d="M170 180 Q250 140, 330 180" 
+        fill="none" stroke="url(#neonGradient)" stroke-width="8" stroke-linecap="round" 
+        filter="url(#glow)" opacity="0.8"/>
+  
+  <!-- Enhanced music notes -->
+  <g transform="translate(0, 5)">
+    <path d="M180 250 L180 190 L190 180 L200 190 L200 240 C200 255, 180 270, 160 260 C140 250, 140 230, 160 220 C170 215, 180 220, 180 230" 
+          fill="none" stroke="url(#neonGradient)" stroke-width="6" stroke-linecap="round" 
+          filter="url(#glow)" opacity="0.8">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 0 -2; 0 0" dur="2s" repeatCount="indefinite"/>
+    </path>
+    
+    <path d="M290 230 L290 170 L300 160 L310 170 L310 220 C310 235, 290 250, 270 240 C250 230, 250 210, 270 200 C280 195, 290 200, 290 210" 
+          fill="none" stroke="url(#neonGradient)" stroke-width="6" stroke-linecap="round" 
+          filter="url(#glow)" opacity="0.8">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 0 -2; 0 0" dur="2.5s" repeatCount="indefinite"/>
+    </path>
   </g>
-
-  <!-- "Rym" text with a playful, bold style -->
-  <text
-    x="60"
-    y="70"
-    font-family="'Montserrat', sans-serif"
-    font-size="50"
-    font-weight="bold"
-    fill="url(#grad1)"
-    transform="rotate(-5 100 50)"
-  >
-    Rym
-  </text>
+  
+  <!-- Dynamic sound waves -->
+  <g>
+    <path d="M120 230 C135 220, 135 240, 120 230" 
+          fill="none" stroke="url(#neonGradient)" stroke-width="4" filter="url(#glow)">
+      <animate attributeName="d" values="M120 230 C135 220, 135 240, 120 230; M120 230 C140 215, 140 245, 120 230; M120 230 C135 220, 135 240, 120 230" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M100 230 C125 210, 125 250, 100 230" 
+          fill="none" stroke="url(#neonGradient)" stroke-width="4" filter="url(#glow)">
+      <animate attributeName="d" values="M100 230 C125 210, 125 250, 100 230; M100 230 C130 205, 130 255, 100 230; M100 230 C125 210, 125 250, 100 230" dur="4s" repeatCount="indefinite"/>
+    </path>
+    
+    <path d="M380 230 C365 220, 365 240, 380 230" 
+          fill="none" stroke="url(#neonGradient)" stroke-width="4" filter="url(#glow)">
+      <animate attributeName="d" values="M380 230 C365 220, 365 240, 380 230; M380 230 C360 215, 360 245, 380 230; M380 230 C365 220, 365 240, 380 230" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M400 230 C375 210, 375 250, 400 230" 
+          fill="none" stroke="url(#neonGradient)" stroke-width="4" filter="url(#glow)">
+      <animate attributeName="d" values="M400 230 C375 210, 375 250, 400 230; M400 230 C370 205, 370 255, 400 230; M400 230 C375 210, 375 250, 400 230" dur="4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Improved RYM logo with better proportions -->
+  <g transform="translate(0, -10)" filter="url(#subtleGlow)">
+    <path d="M210 330 
+             C230 315, 270 315, 290 330 
+             C300 340, 300 350, 290 360 
+             C270 375, 230 375, 210 360 
+             C200 350, 200 340, 210 330 Z" 
+          fill="none" stroke="url(#neonGradient)" stroke-width="4" opacity="0.9"/>
+    
+    <!-- R letter -->
+    <path d="M220 340 L220 330 
+             C225 330, 230 335, 225 340 
+             L220 340 Z 
+             M220 340 L225 350" 
+          fill="none" stroke="url(#neonGradient)" stroke-width="3" stroke-linecap="round"/>
+    
+    <!-- Y letter -->
+    <path d="M240 330 L245 340 L250 330 
+             M245 340 L245 350" 
+          fill="none" stroke="url(#neonGradient)" stroke-width="3" stroke-linecap="round"/>
+    
+    <!-- M letter -->
+    <path d="M260 330 L260 350 
+             M260 330 L265 340 L270 330 
+             M270 330 L270 350" 
+          fill="none" stroke="url(#neonGradient)" stroke-width="3" stroke-linecap="round"/>
+  </g>
 </svg>

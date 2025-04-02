@@ -62,3 +62,67 @@
     height: 1rem;
     fill: white;
 }
+
+.songlist ul {
+    position: relative;
+    align-items: center;
+    padding: 20px 50px;
+}
+
+.songlist ul li {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin-left: 20px;
+    font-size: medium;
+    font-family: cursive;
+    list-style-type: decimal;
+    gap: 30px;
+    cursor: pointer;
+    border: 2px solid rgb(179, 151, 170);
+    box-shadow: 0 4px 8px rgba(147, 196, 211, 0.3);
+    margin: 25px 0;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+    transform-origin: center;
+}
+
+.songlist ul li img {
+    width: 2vw;
+}
+
+.playnow {
+    pdisplay: flex;
+    /* Keep flex */
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-left: auto;
+    /* Push to the right */
+    osition: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    right: 13%;
+}
+
+.playnow span {
+    font-size: small;
+    padding: 12px 0px;
+}
+
+.songname {
+    font-size: medium;
+    font-weight: 600;
+}
+
+.songlist ul li:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.artistname {
+    font-size: small;
+    color: #a7a2a2;
+}

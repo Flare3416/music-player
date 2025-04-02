@@ -27,7 +27,8 @@ body {
 }
 
 .nav-left .logo {
-    width: clamp(50px, 10vw, 120px);
+    margin-top: 1vw;
+    width: clamp(50px, 9vw, 120px);
     height: auto;
     cursor: pointer;
     opacity: 0.9;
@@ -47,7 +48,7 @@ body {
 }
 
 .home-icon {
-    width: clamp(24px, 1vw, 32px);
+    width: clamp(24px, 2vw, 32px);
     height: auto;
     cursor: pointer;
     opacity: 0.8;

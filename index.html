@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player</title>
+    <title>Rym</title>
     <link rel="stylesheet" href="nav.css">
     <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="control.css">
+    <link rel="icon" href="favicon.ico" sizes="16x16 32x32" type="image/png">
 </head>
 
 <body>
@@ -50,7 +51,11 @@
                     Create
                 </button>
             </div>
-            
+            <div class="songlist">
+                <ul>
+                    
+                </ul>
+            </div>
         </div>
         <div class="main-content">
             <div class="playlist">
@@ -132,10 +137,19 @@
             </div>
         </div>
         
-        <div class="songbutton">
-            <img src="svg/prev.svg" alt="">
-            <img src="svg/PandP.svg" alt="">
-            <img src="svg/next.svg" alt="">
+        <div class="player-controls">
+            <div class="songbutton">
+                <img src="svg/prev.svg" alt="">
+                <img src="svg/PandP.svg" alt="">
+                <img src="svg/next.svg" alt="">
+            </div>
+            
+            <div class="playbar-container">
+                <div class="playbar">
+                    <div class="playbar-progress"></div>
+                    <div class="playbar-handle"></div>
+                </div>
+            </div>
         </div>
         
         <div class="songtime">
