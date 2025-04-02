@@ -2,32 +2,28 @@ console.log("Test");
 let currentsong = new Audio();
 
 async function getsongs() {
-    let a = await fetch("http://127.0.0.1:3000/songs/");
-    let response = await a.text();
-    let div = document.createElement("div");
-    div.innerHTML = response;
-
-    let as = div.getElementsByTagName("a");
+    let a = await fetch("https://api.github.com/repos/Flare3416/music-player/contents/songs");
+    let response = await a.json(); // Changed to .json() since GitHub API returns JSON
+    
     let songs = [];
-    for (let index = 0; index < as.length; index++) {
-        const element = as[index];
-        if (element.href.endsWith(".mp3")) {
-            songs.push(element.href); // Store full URL instead of splitting
+    for (let index = 0; index < response.length; index++) {
+        const element = response[index];
+        if (element.name.endsWith(".mp3")) {
+            // Construct raw GitHub URL
+            songs.push(`https://raw.githubusercontent.com/Flare3416/music-player/main/songs/${element.name}`);
         }
     }
     return songs;
 }
 
 const playMusic = (track) => {
-    // let audio = new Audio(track); // Use the full URL directly
-    currentsong.src=track;
+    currentsong.src = track;
     currentsong.play().catch(error => {
         console.error("Playback failed:", error);
     });
 }
 
 async function main() {
-
     let songs = await getsongs();
     console.log(songs);
 
@@ -38,7 +34,7 @@ async function main() {
         const [artist, songName] = displayName.split("-");
         
         songUL.innerHTML +=
-            `<li data-song-url="${song}"> <!-- Store full URL in data attribute -->
+            `<li data-song-url="${song}">
                 <img src="svg/music.svg" alt="">
                 <div class="info">
                     <div class="songname">${songName}</div>
@@ -50,16 +46,13 @@ async function main() {
             </li>`;
     }
 
-    //attach event listener to each song
     Array.from(document.querySelector(".songlist").getElementsByTagName("li")).forEach(e => {
         e.addEventListener("click", () => {
-            const songUrl = e.getAttribute('data-song-url'); // Get full URL
+            const songUrl = e.getAttribute('data-song-url');
             console.log("Playing:", songUrl);
             playMusic(songUrl);
         });
     });
-
-    //attach event listener to ea
 }
 
 main();
