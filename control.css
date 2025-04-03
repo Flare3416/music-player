@@ -16,7 +16,10 @@
     display: flex;
     align-items: center;
     width: 25%;
+}
 
+.songinfo img{
+    width: 5.2vh;
 }
 
 .controlinfo:nth-child(2){
@@ -295,64 +298,83 @@
     }
 }
 
-/* Under 650px - Mobile Devices */
+
+/* Below 650px - Improve Control Bar Layout */
 @media screen and (max-width: 650px) {
     .control {
-        padding: 0 10px;
+        flex-direction: column;
+        height: auto;
+        padding: 12px 10px;
+        gap: 12px;
+        align-items: center;
+        z-index: 101;
     }
 
     .songinfo {
-        min-width: 100px;
-        width: 30%;
+        width: 100%;
+        justify-content: center;
+        text-align: center;
     }
-
+    .songinfo img{
+        width: 10vh;
+    }
     .songbutton {
-        gap: 8px;
+        width: 100%;
+        gap: 16px;
+        justify-content: center;
     }
 
     .songbutton img {
-        width: 18px;
-        height: 18px;
+        width: 24px;
+        height: 24px;
     }
 
     .songbutton img:nth-child(2) {
-        width: 35px;
-        height: 35px;
+        width: 42px;
+        height: 42px;
     }
 
     .right-controls {
-        min-width: 100px;
-        gap: 8px;
+        width: 100%;
+        justify-content: center;
+        gap: 12px;
     }
 
     .player-controls {
-        left: 32.5%;
-        width: 35%;
+        width: 100%;
+        position: static;
+        flex-direction: column;
+        align-items: center;
     }
 
     .playbar-container {
-        padding: 0 5px;
+        width: 90%;
+        padding: 0;
     }
 
     .volume-control {
-        width: 70px;
-        right:15%
+        width: 25%;
+        position: absolute;
+        bottom: 4%;
+        right: 6%;
     }
 
-    .volume-icon {
-        width: 16px;
-        height: 16px;
-    }
-
-    .controlsong{
-        font-size: xx-small;
-    }
-    .controlinfo:nth-child(2){
-        font-size: 6px;
+    .volume-bar-container {
+        width: 20%;
     }
 
     .songtime {
-        font-size: 8px;
-        width: 100px; 
+        width: auto;
+        font-size: 12px;
+    }
+
+    .controlimg{
+        height: 10dvh;
+    }
+    .controlsong{
+        font-size: medium;
+    }
+    .controlinfo:nth-child(2){
+        font-size: x-small;
     }
 }

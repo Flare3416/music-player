@@ -42,7 +42,7 @@ const playMusic = (track, autoplay = false) => {
     }
 
     document.querySelector(".songinfo").innerHTML = `
-        <img src="img/citypop.jpg" alt="Current song" style=" height: 5.2vh; border-radius: 4px; margin-right: 12px;">
+        <img src="img/citypop.jpg" alt="Current song" style=" border-radius: 4px; margin-right: 12px;">
         <div class="controlinfo">
             <div class="controlsong" style="font-weight: 600;">${songName}</div>
             <div style="opacity: 0.7;">${artist}</div>
