@@ -1,9 +1,7 @@
 .sidebar {
     width: 25vw;
-    min-height: 84vh;
     background-color: #141414;
-    height: 84vh;
-    /* Changed to 100% of container height */
+    height: 100%;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #555555 #121212;
@@ -135,11 +133,12 @@
 
 @media screen and (max-width: 1400px) {
     .sidebar{
-        position: absolute;
+        position: fixed;
+        width: 45vw;
+        height: 84vh;
         left:-100%;
         transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 100;
-        width: 45vw;
     }
 
     .libnav button {

@@ -95,7 +95,6 @@ function setupVolumeControl() {
 async function main() {
     let songs = await getsongs();
     console.log(songs);
-
     // Load first song but don't autoplay
     if (songs.length > 0) {
         playMusic(songs[0]);
