@@ -131,7 +131,7 @@ async function switchFolder(folder,shouldAutoplay = false) {
     
     // Load first song of the new folder but don't autoplay
     if (songs.length > 0) {
-        playMusic(songs[0]); 
+        playMusic(songs[0],shouldAutoplay); 
     }
 }
 
