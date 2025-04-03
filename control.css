@@ -16,7 +16,11 @@
     display: flex;
     align-items: center;
     width: 25%;
-    min-width: 180px;
+
+}
+
+.controlinfo:nth-child(2){
+    font-size: 12px;
 }
 
 .songbutton {
@@ -66,7 +70,6 @@
     justify-content: flex-end;
     align-items: center;
     width: 150px; 
-    min-width: 150px;
 }
 
 /* Stable playbar with hover effects that don't shift layout */
@@ -255,4 +258,100 @@
 .volume-icon:hover {
     opacity: 1;
     transform: scale(1.1);
+}
+
+/* --- Media Queries --- */
+
+/* Under 992px - Tablets & Small Laptops */
+@media screen and (max-width: 992px) {
+    .songinfo {
+        min-width: 120px;
+    }
+
+    .songbutton {
+        gap: 12px;
+    }
+
+    .right-controls {
+        min-width: 150px;
+    }
+
+    .player-controls {
+        left: 30%;
+        width: 40%;
+    }
+
+    .volume-control {
+        width: 100px;
+        right: 12%;
+    }
+
+    .controlsong{
+        font-size: small;
+    }
+    .controlinfo:nth-child(2){
+        font-size: 10px;
+    }
+
+    
+}
+
+/* Under 650px - Mobile Devices */
+@media screen and (max-width: 650px) {
+    .control {
+        padding: 0 10px;
+    }
+
+    .songinfo {
+        min-width: 100px;
+    }
+
+    .songbutton {
+        gap: 8px;
+    }
+
+    .songbutton img {
+        width: 18px;
+        height: 18px;
+    }
+
+    .songbutton img:nth-child(2) {
+        width: 26px;
+        height: 26px;
+    }
+
+    .right-controls {
+        min-width: 100px;
+        gap: 8px;
+    }
+
+    .player-controls {
+        left: 32.5%;
+        width: 35%;
+    }
+
+    .playbar-container {
+        padding: 0 5px;
+    }
+
+    .volume-control {
+        width: 70px;
+        right:15%
+    }
+
+    .volume-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .controlsong{
+        font-size: xx-small;
+    }
+    .controlinfo:nth-child(2){
+        font-size: 6px;
+    }
+
+    .songtime {
+        width: 100px; 
+    }
 }

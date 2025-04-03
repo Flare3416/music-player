@@ -170,7 +170,7 @@ body {
 @media screen and (max-width: 992px) {
     .nav {
         padding: 10px 20px;
-        height: 60px;
+
     }
     
     .nav-center {
@@ -200,7 +200,6 @@ body {
 @media screen and (max-width: 650px) {
     .nav {
         padding: 8px 12px;
-        height: 50px;
     }
     
     .nav-left .logo {
@@ -233,9 +232,9 @@ body {
     }
     
     .nav-right button {
-        width: 60px;
+        width: 40px;
         height: 28px;
-        font-size: 11px;
+        font-size: 8px;
         border-radius: 14px;
     }
     

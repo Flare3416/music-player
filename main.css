@@ -107,15 +107,23 @@
 
 /* Media Queries for Responsiveness */
 @media screen and (max-width: 1200px) {
+    .main-content{
+        width: 100%;
+    }
     .cardcontainer {
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
 @media screen and (max-width: 992px) {
+    .main-content{
+        width: 100%;
+        height: 84vh;
+    }
     .cardcontainer {
         grid-template-columns: repeat(3, 1fr);
     }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -131,6 +139,10 @@
     .playlist span {
         font-size: 20px;
     }
+
+    .card .playsvg{
+        right: 20%;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -140,6 +152,10 @@
     
     .card img {
         max-width: 180px;
+    }
+
+    .card .playsvg{
+        right: 15%;
     }
 }
 

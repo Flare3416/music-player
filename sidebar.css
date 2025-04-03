@@ -1,7 +1,7 @@
 .sidebar {
     width: 25vw;
     background-color: #141414;
-    height: 100V;
+    height: 84vh;
     /* Changed to 100% of container height */
     overflow-y: auto;
     scrollbar-width: thin;
@@ -92,14 +92,14 @@
 }
 
 .playnow {
-    pdisplay: flex;
+   
     /* Keep flex */
     align-items: center;
     justify-content: center;
     gap: 10px;
     margin-left: auto;
     /* Push to the right */
-    osition: absolute;
+    position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -125,4 +125,13 @@
 .artistname {
     font-size: small;
     color: #a7a2a2;
+}
+
+@media screen and (max-width: 1200px) {
+    .sidebar{
+        position: absolute;
+        left:-100%;
+        transition:all 0.3s;
+        z-index: 1;
+    }
 }
