@@ -18,17 +18,33 @@ function formatTime(seconds) {
 
 async function getsongs(folder) {
     currFolder = folder;
-    let a = await fetch(`https://api.github.com/repos/Flare3416/music-player/contents/${folder}`);
-    let response = await a.json();
-
-    let songs = [];
-    for (let index = 0; index < response.length; index++) {
-        const element = response[index];
-        if (element.name.endsWith(".mp3")) {
-            songs.push(`https://raw.githubusercontent.com/Flare3416/music-player/main/${folder}/${element.name}`);
-        }
+    
+    // Try localStorage first to avoid API call entirely
+    const cacheKey = `music_${folder}`;
+    const cached = localStorage.getItem(cacheKey);
+    
+    if (cached) {
+        return JSON.parse(cached);
     }
-    return songs;
+    
+    try {
+        // Only call API if no cache exists
+        const response = await fetch(`https://api.github.com/repos/Flare3416/music-player/contents/${folder}`);
+        const data = await response.json();
+        
+        // Extract songs
+        const songs = data
+            .filter(item => item.name.endsWith(".mp3"))
+            .map(item => `https://raw.githubusercontent.com/Flare3416/music-player/main/${folder}/${item.name}`);
+        
+        // Save to localStorage for future use
+        localStorage.setItem(cacheKey, JSON.stringify(songs));
+        
+        return songs;
+    } catch (error) {
+        console.error("API Error:", error);
+        return []; // Return empty array if both API and cache fail
+    }
 }
 
 const playMusic = (track, autoplay = false) => {
