@@ -144,7 +144,7 @@ async function main() {
         const duration = currentsong.duration || 0;
         
         document.querySelector(".songtime").innerHTML = `
-            <span style="font-size: 12px; opacity: 0.7;">
+            <span style=" opacity: 0.7;">
                 ${formatTime(currentTime)} / ${duration ? formatTime(duration) : '--:--'}
             </span>`;
         
