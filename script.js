@@ -49,7 +49,7 @@ const playMusic = (track, autoplay = false) => {
     `;
     
     document.querySelector(".songtime").innerHTML = `
-        <span style="font-size: 12px; opacity: 0.7;">0:00 / --:--</span>
+        <span style=" opacity: 0.7;">0:00 / --:--</span>
     `;
 }
 

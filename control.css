@@ -67,6 +67,7 @@
 
 .songtime {
     display: flex;
+    font-size: 12px;
     justify-content: flex-end;
     align-items: center;
     width: 150px; 
@@ -292,7 +293,7 @@
     .controlinfo:nth-child(2){
         font-size: 10px;
     }
-
+    
     
 }
 
@@ -352,6 +353,7 @@
     }
 
     .songtime {
+        font-size: 8px;
         width: 100px; 
     }
 }
