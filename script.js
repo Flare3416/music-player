@@ -1,6 +1,7 @@
 console.log("Test");
 let currentsong = new Audio();
-
+let songs;
+let currentSongIndex = 0;
 
 function parseTrackInfo(trackUrl) {
     const displayName = trackUrl.split('/').pop().replaceAll("%20", " ").replaceAll(".mp3", "");
@@ -18,7 +19,7 @@ function formatTime(seconds) {
 async function getsongs() {
     let a = await fetch("https://api.github.com/repos/Flare3416/music-player/contents/songs");
     let response = await a.json();
-    
+
     let songs = [];
     for (let index = 0; index < response.length; index++) {
         const element = response[index];
@@ -32,14 +33,14 @@ async function getsongs() {
 const playMusic = (track, autoplay = false) => {
     const { artist, songName } = parseTrackInfo(track);
     currentsong.src = track;
-    
-    if(autoplay){
+
+    if (autoplay) {
         currentsong.play().catch(error => {
             console.error("Playback failed:", error);
         });
         play.src = "svg/pause.svg";
     }
-    
+
     document.querySelector(".songinfo").innerHTML = `
         <img src="img/citypop.jpg" alt="Current song" style=" height: 5.2vh; border-radius: 4px; margin-right: 12px;">
         <div class="controlinfo">
@@ -47,7 +48,7 @@ const playMusic = (track, autoplay = false) => {
             <div style="opacity: 0.7;">${artist}</div>
         </div> 
     `;
-    
+
     document.querySelector(".songtime").innerHTML = `
         <span style=" opacity: 0.7;">0:00 / --:--</span>
     `;
@@ -59,7 +60,7 @@ function setupVolumeControl() {
     const volumeIcon = document.querySelector(".volume-icon");
     const volumeBar = document.querySelector(".volume-bar");
     const volumeProgress = document.querySelector(".volume-progress");
-    
+
     // Initialize
     currentsong.volume = 0.3;
     lastVolumeBeforeMute = 0.3;
@@ -93,7 +94,7 @@ function setupVolumeControl() {
 }
 
 async function main() {
-    let songs = await getsongs();
+    songs = await getsongs();
     console.log(songs);
     // Load first song but don't autoplay
     if (songs.length > 0) {
@@ -105,7 +106,7 @@ async function main() {
 
     for (const song of songs) {
         const { artist, songName } = parseTrackInfo(song);
-        
+
         songUL.innerHTML +=
             `<li data-song-url="${song}">
                 <img src="svg/music.svg" alt="">
@@ -128,7 +129,7 @@ async function main() {
 
     // Play/pause button
     play.addEventListener("click", () => {
-        if(currentsong.paused){
+        if (currentsong.paused) {
             currentsong.play();
             play.src = "svg/pause.svg";
         } else {
@@ -137,16 +138,53 @@ async function main() {
         }
     });
 
+    //previous and next button
+    previous.addEventListener("click", () => {
+        if (songs.length === 0) return;
+        
+        // Find current index by comparing the full URL
+        const currentIndex = songs.findIndex(song => {
+            // Compare the full URLs after normalizing
+            return new URL(song).href === new URL(currentsong.src).href;
+        });
+        
+        if (currentIndex === -1) {
+            console.warn("Current song not found in playlist");
+            return;
+        }
+        // Calculate previous with wrap-around
+        const prevIndex = currentIndex <= 0 ? songs.length - 1 : currentIndex - 1;
+        playMusic(songs[prevIndex], true);
+    });
+    
+    // Next button - fixed without new variables
+    next.addEventListener("click", () => {
+        if (songs.length === 0) return;
+        
+        // Find current index by comparing the full URL
+        const currentIndex = songs.findIndex(song => {
+            return new URL(song).href === new URL(currentsong.src).href;
+        });
+        
+        if (currentIndex === -1) {
+            console.warn("Current song not found in playlist");
+            return;
+        }
+        
+        // Calculate next with wrap-around
+        const nextIndex = (currentIndex + 1) % songs.length;
+        playMusic(songs[nextIndex], true);
+    });
     // Time update event
     currentsong.addEventListener("timeupdate", () => {
         const currentTime = currentsong.currentTime;
         const duration = currentsong.duration || 0;
-        
+
         document.querySelector(".songtime").innerHTML = `
             <span style=" opacity: 0.7;">
                 ${formatTime(currentTime)} / ${duration ? formatTime(duration) : '--:--'}
             </span>`;
-        
+
         // Update progress bar
         if (duration > 0) {
             const progressPercent = (currentTime / duration) * 100;
@@ -161,7 +199,7 @@ async function main() {
         const rect = playbar.getBoundingClientRect();
         const clickPosition = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
         document.querySelector(".playbar-progress").style.width = `${clickPosition * 100}%`;
-        
+
         if (currentsong.duration) {
             currentsong.currentTime = clickPosition * currentsong.duration;
         }
@@ -175,16 +213,16 @@ async function main() {
     setupVolumeControl();
 
     //adding event-listener for hamburger icon
-    
-    document.querySelector(".hamburger").addEventListener("click",()=>{
-        document.querySelector(".sidebar").style.left="0";
-        document.querySelector(".hamburger").style.display="none";
+
+    document.querySelector(".hamburger").addEventListener("click", () => {
+        document.querySelector(".sidebar").style.left = "0";
+        document.querySelector(".hamburger").style.display = "none";
     });
 
     //adding event-listener for close icon
-    document.querySelector(".close").addEventListener("click",()=>{
-        document.querySelector(".sidebar").style.left="-100%";
-        document.querySelector(".hamburger").style.display="block";
+    document.querySelector(".close").addEventListener("click", () => {
+        document.querySelector(".sidebar").style.left = "-100%";
+        document.querySelector(".hamburger").style.display = "block";
     });
 }
 

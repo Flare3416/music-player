@@ -1,262 +1,263 @@
 .sidebar {
-    width: 25vw;
-    background-color: #141414;
-    height: 100%;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #555555 #121212;
+  width: 25vw;
+  background-color: #141414;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #555555 #121212;
 }
 
 .libnav {
-    position: sticky;
-    top: 0;
-    padding: 10px;
-    align-items: center;
-    display: flex;
-    height: 10%;
-    width: 100%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 1);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    background-color: #111010;
-    gap: 10px;
+  position: sticky;
+  top: 0;
+  padding: 10px;
+  align-items: center;
+  display: flex;
+  height: 10%;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 1);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: #111010;
+  gap: 10px;
 }
 
 .libnav img {
-    width: 2vw;
+  width: 2vw;
 }
 
 .libnav span {
-    font-size: larger;
-    font-weight: 500;
-    color: #ddd6d6;
+  font-size: larger;
+  font-weight: 500;
+  color: #ddd6d6;
 }
 
 .libnav button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #ddd6d6;
-    position: absolute;
-    right: 15px;
-    background: linear-gradient(to right, #946f80, #467a7a);
-    border-radius: 30px;
-    padding: 4px 15px;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    gap: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ddd6d6;
+  position: absolute;
+  right: 15px;
+  background: linear-gradient(to right, #946f80, #467a7a);
+  border-radius: 30px;
+  padding: 4px 15px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  gap: 5px;
 }
 
 .libnav button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 .libnav button>svg {
-    width: 1rem;
-    height: 1rem;
-    fill: white;
+  width: 1rem;
+  height: 1rem;
+  fill: white;
 }
 
 .close{
-    display: none;
+  display: none;
 }
 
-
 .songlist ul {
-    position: relative;
-    align-items: center;
-    padding: 20px 50px;
+  position: relative;
+  align-items: center;
+  padding: 20px 50px;
 }
 
 .songlist ul li {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    margin-left: 20px;
-    font-size: medium;
-    font-family: cursive;
-    list-style-type: decimal;
-    gap: 30px;
-    cursor: pointer;
-    border: 2px solid rgb(179, 151, 170);
-    box-shadow: 0 4px 8px rgba(147, 196, 211, 0.3);
-    margin: 25px 0;
-    border-radius: 10px;
-    transition: transform 0.3s ease-in-out;
-    transform-origin: center;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  margin-left: 20px;
+  font-size: medium;
+  font-family: cursive;
+  list-style-type: decimal;
+  gap: 30px;
+  cursor: pointer;
+  border: 2px solid rgb(179, 151, 170);
+  box-shadow: 0 4px 8px rgba(147, 196, 211, 0.3);
+  margin: 25px 0;
+  border-radius: 10px;
+  position: relative;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transform-origin: center;
 }
 
 .songlist ul li img {
-    width: 2vw;
+  width: 2vw;
 }
 
 .playnow {
-   
-    /* Keep flex */
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-left: auto;
-    /* Push to the right */
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    right: 13%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
 }
 
 .playnow span {
-    font-size: small;
-    padding: 12px 0px;
+  font-size: small;
+  padding: 12px 0px;
 }
 
 .songname {
-    font-size: medium;
-    font-weight: 600;
+  font-size: medium;
+  font-weight: 600;
 }
 
 .songlist ul li:hover {
-    transform: scale(1.08);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  transform: scale(1.08);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* This ensures the play button maintains its position during hover scaling */
+.songlist ul li:hover .playnow {
+  transform: translateY(-50%) scale(0.926); /* 1/1.08 to counteract the parent scaling */
 }
 
 .artistname {
-    font-size: small;
-    color: #a7a2a2;
+  font-size: small;
+  color: #a7a2a2;
 }
 
 @media screen and (max-width: 1400px) {
-    .sidebar{
-        position: fixed;
-        width: 45vw;
-        height: 84dvh;
-        left:-100%;
-        transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 100;
-    }
+  .sidebar{
+      position: fixed;
+      width: 45vw;
+      height: 84dvh;
+      left:-100%;
+      transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 100;
+  }
 
-    .libnav button {
-        right: 15%;
-    }
+  .libnav button {
+      right: 15%;
+  }
 
-    .close{
-        align-items: center;
-        position: absolute;
-        display: block;
-        margin-top: 10px;
-        right: 2%;
-    }
+  .close{
+      align-items: center;
+      position: absolute;
+      display: block;
+      margin-top: 10px;
+      right: 2%;
+  }
 
-    .close img{
-        width: 6vw;
-    }
+  .close img{
+      width: 6vw;
+  }
 }
 
 @media screen and (max-width: 992px) {
-    .sidebar {
-      width: 60vw;
-      left: -100%;
-      transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 100;
-    }
-  
-    .libnav img {
-      width: 3vw;
-    }
-  
-    .songlist ul li img {
-      width: 3vw;
-    }
-  
-    .playnow {
-      right: 13%;
-    }
-    .close img{
-        width: 6vw;
-    }
+  .sidebar {
+    width: 60vw;
+    left: -100%;
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
   }
-  
-  /* Portrait Mobile (650px and below) */
-  @media screen and (max-width: 650px) {
-    .sidebar {
-      width: 70vw;
-    }
-  
-    .libnav {
-      height: 8%;
-    }
-  
-    .libnav img {
-      width: 5vw;
-    }
-  
-    .libnav span {
-      font-size: medium;
-    }
-  
-    .libnav button {
-      padding: 3px 12px;
-      font-size: 0.8rem;
-      right: 15%;
-    }
-  
-    .songlist ul {
-      padding: 15px 20px;
-    }
-  
-    .songlist ul li {
-      padding: 8px;
-      gap: 15px;
-      margin: 15px 0;
-    }
-  
-    .songlist ul li img {
-      width: 5vw;
-    }
-  
-    .playnow {
-      right: 10%;
-    }
-  
-    .songname {
-      font-size: small;
-    }
-    .close img{
-        width: 8vw;
-    }
+
+  .libnav img {
+    width: 3vw;
   }
-  
-  /* Small Mobile (400px and below) */
-  @media screen and (max-width: 400px) {
-    .sidebar {
-      width: 85vw;
-    }
-  
-    .libnav span {
-      font-size: small;
-    }
-  
-    .libnav button {
-      padding: 2px 8px;
-      font-size: 0.7rem;
-    }
-  
-    .songlist ul {
-      padding: 10px;
-    }
-    .close img{
-        width: 10vw;
-    }
+
+  .songlist ul li img {
+    width: 3vw;
   }
-  
-  /* Active State Class for JavaScript Toggle */
-  .sidebar.active {
-    left: 0;
-    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+
+  .playnow {
+    right: 5%;
   }
+  .close img{
+      width: 6vw;
+  }
+}
+
+/* Portrait Mobile (650px and below) */
+@media screen and (max-width: 650px) {
+  .sidebar {
+    width: 70vw;
+  }
+
+  .libnav {
+    height: 8%;
+  }
+
+  .libnav img {
+    width: 5vw;
+  }
+
+  .libnav span {
+    font-size: medium;
+  }
+
+  .libnav button {
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    right: 15%;
+  }
+
+  .songlist ul {
+    padding: 15px 20px;
+  }
+
+  .songlist ul li {
+    padding: 8px;
+    gap: 15px;
+    margin: 15px 0;
+  }
+
+  .songlist ul li img {
+    width: 5vw;
+  }
+
+  .playnow {
+    right: 5%;
+  }
+
+  .songname {
+    font-size: small;
+  }
+  .close img{
+      width: 8vw;
+  }
+}
+
+/* Small Mobile (400px and below) */
+@media screen and (max-width: 400px) {
+  .sidebar {
+    width: 85vw;
+  }
+
+  .libnav span {
+    font-size: small;
+  }
+
+  .libnav button {
+    padding: 2px 8px;
+    font-size: 0.7rem;
+  }
+
+  .songlist ul {
+    padding: 10px;
+  }
+  .close img{
+      width: 10vw;
+  }
+}
+
+/* Active State Class for JavaScript Toggle */
+.sidebar.active {
+  left: 0;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+}
