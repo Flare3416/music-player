@@ -20,7 +20,7 @@
 
 .hamburger{
     display: none;
-    top: calc(8vh + 10px);
+    top: calc(8dvh + 10px);
 }
 
 .playlist span {
