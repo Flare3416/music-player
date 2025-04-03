@@ -139,7 +139,7 @@
 @media screen and (max-width: 992px) {
     .main-content{
         width: 100%;
-        height: 84dvh;
+
     }
     .cardcontainer {
         grid-template-columns: repeat(3, 1fr);

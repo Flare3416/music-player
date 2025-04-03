@@ -255,9 +255,3 @@
       width: 10vw;
   }
 }
-
-/* Active State Class for JavaScript Toggle */
-.sidebar.active {
-  left: 0;
-  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
-}
