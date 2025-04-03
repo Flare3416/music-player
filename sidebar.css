@@ -63,6 +63,11 @@
     fill: white;
 }
 
+.close{
+    display: none;
+}
+
+
 .songlist ul {
     position: relative;
     align-items: center;
@@ -127,11 +132,133 @@
     color: #a7a2a2;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1400px) {
     .sidebar{
         position: absolute;
         left:-100%;
-        transition:all 0.3s;
+        transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 1;
+        width: 45vw;
+    }
+
+    .libnav button {
+        right: 15%;
+    }
+
+    .close{
+        align-items: center;
+        position: absolute;
+        display: block;
+        margin-top: 10px;
+        right: 2%;
+    }
+
+    .close img{
+        width: 6vw;
     }
 }
+
+@media screen and (max-width: 992px) {
+    .sidebar {
+      width: 60vw;
+      height: 84vh;
+      left: -100%;
+      transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 100;
+    }
+  
+    .libnav img {
+      width: 3vw;
+    }
+  
+    .songlist ul li img {
+      width: 3vw;
+    }
+  
+    .playnow {
+      right: 13%;
+    }
+    .close img{
+        width: 6vw;
+    }
+  }
+  
+  /* Portrait Mobile (650px and below) */
+  @media screen and (max-width: 650px) {
+    .sidebar {
+      width: 70vw;
+      height: 84vh;
+    }
+  
+    .libnav {
+      height: 8%;
+    }
+  
+    .libnav img {
+      width: 5vw;
+    }
+  
+    .libnav span {
+      font-size: medium;
+    }
+  
+    .libnav button {
+      padding: 3px 12px;
+      font-size: 0.8rem;
+      right: 15%;
+    }
+  
+    .songlist ul {
+      padding: 15px 20px;
+    }
+  
+    .songlist ul li {
+      padding: 8px;
+      gap: 15px;
+      margin: 15px 0;
+    }
+  
+    .songlist ul li img {
+      width: 5vw;
+    }
+  
+    .playnow {
+      right: 10%;
+    }
+  
+    .songname {
+      font-size: small;
+    }
+    .close img{
+        width: 8vw;
+    }
+  }
+  
+  /* Small Mobile (400px and below) */
+  @media screen and (max-width: 400px) {
+    .sidebar {
+      width: 85vw;
+    }
+  
+    .libnav span {
+      font-size: small;
+    }
+  
+    .libnav button {
+      padding: 2px 8px;
+      font-size: 0.7rem;
+    }
+  
+    .songlist ul {
+      padding: 10px;
+    }
+    .close img{
+        width: 10vw;
+    }
+  }
+  
+  /* Active State Class for JavaScript Toggle */
+  .sidebar.active {
+    left: 0;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+  }

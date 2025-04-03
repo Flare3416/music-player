@@ -17,6 +17,10 @@
     align-items: center;
 }
 
+.hamburger{
+    display: none;
+}
+
 .playlist span {
     font-size: 24px;
     font-weight: 700;
@@ -106,12 +110,26 @@
 }
 
 /* Media Queries for Responsiveness */
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1400px) {
     .main-content{
         width: 100%;
     }
     .cardcontainer {
         grid-template-columns: repeat(4, 1fr);
+    }
+    .hamburger {
+        display: block;
+
+    }
+
+    .hamburger img{
+        width: 6vw;
+    }
+    .hamburger:hover{
+        transform: scale(1.1);
+    }
+    .playlist span{
+        margin-left: 20px;
     }
 }
 
@@ -143,6 +161,9 @@
     .card .playsvg{
         right: 20%;
     }
+    .hamburger img{
+        width: 9vw;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -156,6 +177,10 @@
 
     .card .playsvg{
         right: 15%;
+    }
+
+    .hamburger img{
+        width: 12vw;
     }
 }
 

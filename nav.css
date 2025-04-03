@@ -170,7 +170,7 @@ body {
 @media screen and (max-width: 992px) {
     .nav {
         padding: 10px 20px;
-
+        left:41%;
     }
     
     .nav-center {
@@ -209,7 +209,7 @@ body {
     .nav-center {
         position: static;
         transform: none;
-        margin-left: 10px;
+        margin-left: 70px;
         gap: 8px;
         flex: 1;
         justify-content: center;

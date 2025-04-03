@@ -1,0 +1,29 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="burgerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF6EC7"/>  <!-- Vibrant Pink -->
+      <stop offset="100%" stop-color="#6EC3FF"/> <!-- Light Blue -->
+    </linearGradient>
+    <filter id="softGlow">
+      <feDropShadow dx="0" dy="0" stdDeviation="1.2" flood-color="#FF6EC7" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Animated Lines -->
+  <g filter="url(#softGlow)" fill="url(#burgerGradient)">
+    <!-- Top Line - Gentle Bounce -->
+    <rect x="6" y="8" width="12" height="1.5" rx="0.75">
+      <animate attributeName="y" values="8;7.5;8" dur="3s" repeatCount="indefinite" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"/>
+    </rect>
+    
+    <!-- Middle Line - Pulse -->
+    <rect x="6" y="11.25" width="12" height="1.5" rx="0.75">
+      <animate attributeName="width" values="12;14;12" dur="2.5s" repeatCount="indefinite" begin="0.2s" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.33 0 0.67 1; 0.33 0 0.67 1"/>
+    </rect>
+    
+    <!-- Bottom Line - Mirror of Top -->
+    <rect x="6" y="14.5" width="12" height="1.5" rx="0.75">
+      <animate attributeName="y" values="14.5;15;14.5" dur="3s" repeatCount="indefinite" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"/>
+    </rect>
+  </g>
+</svg>

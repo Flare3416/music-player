@@ -174,6 +174,17 @@ async function main() {
     });
 
     setupVolumeControl();
+
+    //adding event-listener for hamburger icon
+    
+    document.querySelector(".hamburger").addEventListener("click",()=>{
+        document.querySelector(".sidebar").style.left="0";
+    });
+
+    //adding event-listener for close icon
+    document.querySelector(".close").addEventListener("click",()=>{
+        document.querySelector(".sidebar").style.left="-100%";
+    });
 }
 
 main();
