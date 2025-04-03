@@ -1,16 +1,14 @@
 console.log("Test");
 let currentsong = new Audio();
 
-// Global track parser function
+
 function parseTrackInfo(trackUrl) {
-    const displayName = trackUrl.split('/').pop()
-                              .replaceAll("%20", " ")
-                              .replaceAll(".mp3", "");
+    const displayName = trackUrl.split('/').pop().replaceAll("%20", " ").replaceAll(".mp3", "");
     const [artist, songName] = displayName.split("-");
     return { artist, songName };
 }
 
-// Format time from seconds to MM:SS
+
 function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
@@ -43,7 +41,7 @@ const playMusic = (track, autoplay = false) => {
     }
     
     document.querySelector(".songinfo").innerHTML = `
-        <img src="img/citypop.jpg" alt="Current song" style="width: 56px; height: 56px; border-radius: 4px; margin-right: 12px;">
+        <img src="img/citypop.jpg" alt="Current song" style=" height: 5.2vh; border-radius: 4px; margin-right: 12px;">
         <div>
             <div style="font-weight: 600;">${songName}</div>
             <div style="font-size: 12px; opacity: 0.7;">${artist}</div>
@@ -53,6 +51,46 @@ const playMusic = (track, autoplay = false) => {
     document.querySelector(".songtime").innerHTML = `
         <span style="font-size: 12px; opacity: 0.7;">0:00 / --:--</span>
     `;
+}
+
+// Volume control functions gpt
+let lastVolumeBeforeMute = 0.3; // Start with default 30%
+
+function setupVolumeControl() {
+    const volumeIcon = document.querySelector(".volume-icon");
+    const volumeBar = document.querySelector(".volume-bar");
+    const volumeProgress = document.querySelector(".volume-progress");
+    
+    // Initialize
+    currentsong.volume = 0.3;
+    lastVolumeBeforeMute = 0.3;
+    updateVolumeDisplay();
+
+    function updateVolumeDisplay() {
+        volumeProgress.style.width = `${currentsong.volume * 100}%`;
+        volumeIcon.src = currentsong.volume === 0 ? "svg/volume-mute.svg" : "svg/volume.svg";
+    }
+
+    volumeBar.addEventListener("click", (e) => {
+        const rect = volumeBar.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        currentsong.volume = Math.max(0, Math.min(1, percent));
+        lastVolumeBeforeMute = currentsong.volume; // Remember this position
+        updateVolumeDisplay();
+    });
+
+    volumeIcon.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (currentsong.volume === 0) {
+            // Restore to last volume instead of fixed 30%
+            currentsong.volume = lastVolumeBeforeMute;
+        } else {
+            // Before muting, remember current volume
+            lastVolumeBeforeMute = currentsong.volume;
+            currentsong.volume = 0;
+        }
+        updateVolumeDisplay();
+    });
 }
 
 async function main() {
@@ -115,6 +153,19 @@ async function main() {
         if (duration > 0) {
             const progressPercent = (currentTime / duration) * 100;
             document.querySelector(".playbar-progress").style.width = `${progressPercent}%`;
+            document.querySelector(".playbar-handle").style.left = `${progressPercent}%`;
+        }
+    });
+
+    //adding event listener to playbar
+    document.querySelector(".playbar").addEventListener("click", e => {
+        const playbar = e.currentTarget;
+        const rect = playbar.getBoundingClientRect();
+        const clickPosition = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        document.querySelector(".playbar-progress").style.width = `${clickPosition * 100}%`;
+        
+        if (currentsong.duration) {
+            currentsong.currentTime = clickPosition * currentsong.duration;
         }
     });
 
@@ -122,6 +173,8 @@ async function main() {
     currentsong.addEventListener("ended", () => {
         play.src = "svg/PandP.svg";
     });
+
+    setupVolumeControl();
 }
 
 main();
