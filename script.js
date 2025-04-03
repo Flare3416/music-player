@@ -2,6 +2,7 @@ console.log("Test");
 let currentsong = new Audio();
 let songs;
 let currentSongIndex = 0;
+let currFolder;
 
 function parseTrackInfo(trackUrl) {
     const displayName = trackUrl.split('/').pop().replaceAll("%20", " ").replaceAll(".mp3", "");
@@ -16,15 +17,16 @@ function formatTime(seconds) {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
-async function getsongs() {
-    let a = await fetch("https://api.github.com/repos/Flare3416/music-player/contents/songs");
+async function getsongs(folder) {
+    currFolder=folder;
+    let a = await fetch(`https://api.github.com/repos/Flare3416/music-player/contents/${folder}`);
     let response = await a.json();
 
     let songs = [];
     for (let index = 0; index < response.length; index++) {
         const element = response[index];
         if (element.name.endsWith(".mp3")) {
-            songs.push(`https://raw.githubusercontent.com/Flare3416/music-player/main/songs/${element.name}`);
+            songs.push(`https://raw.githubusercontent.com/Flare3416/music-player/main/${folder}/${element.name}`);
         }
     }
     return songs;
@@ -94,7 +96,7 @@ function setupVolumeControl() {
 }
 
 async function main() {
-    songs = await getsongs();
+    songs = await getsongs("songs/citypop");
     console.log(songs);
     // Load first song but don't autoplay
     if (songs.length > 0) {
