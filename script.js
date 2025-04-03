@@ -1,10 +1,11 @@
 console.log("Test");
 let currentsong = new Audio();
-let songCache = JSON.parse(localStorage.getItem('songCache')) || null;
 
 // Global track parser function
 function parseTrackInfo(trackUrl) {
-    const displayName = trackUrl.split('/').pop().replaceAll("%20", " ").replaceAll(".mp3", "");
+    const displayName = trackUrl.split('/').pop()
+                              .replaceAll("%20", " ")
+                              .replaceAll(".mp3", "");
     const [artist, songName] = displayName.split("-");
     return { artist, songName };
 }
@@ -17,11 +18,6 @@ function formatTime(seconds) {
 }
 
 async function getsongs() {
-    if (songCache && (Date.now() - songCache.timestamp < 3600000)) {
-        console.log("Using cached songs");
-        return songCache.data;
-    }
-
     let a = await fetch("https://api.github.com/repos/Flare3416/music-player/contents/songs");
     let response = await a.json();
     
@@ -32,16 +28,14 @@ async function getsongs() {
             songs.push(`https://raw.githubusercontent.com/Flare3416/music-player/main/songs/${element.name}`);
         }
     }
-
-    songCache = { data: songs, timestamp: Date.now() };
-    localStorage.setItem('songCache', JSON.stringify(songCache));
     return songs;
 }
 
-const playMusic = (track,pause=false) => {
+const playMusic = (track, autoplay = false) => {
     const { artist, songName } = parseTrackInfo(track);
     currentsong.src = track;
-    if(!pause){
+    
+    if(autoplay){
         currentsong.play().catch(error => {
             console.error("Playback failed:", error);
         });
@@ -56,7 +50,6 @@ const playMusic = (track,pause=false) => {
         </div> 
     `;
     
-    // Initialize time display
     document.querySelector(".songtime").innerHTML = `
         <span style="font-size: 12px; opacity: 0.7;">0:00 / --:--</span>
     `;
@@ -64,9 +57,13 @@ const playMusic = (track,pause=false) => {
 
 async function main() {
     let songs = await getsongs();
-    playMusic(songs[0],true);
+    console.log(songs);
 
-    //shows all the song
+    // Load first song but don't autoplay
+    if (songs.length > 0) {
+        playMusic(songs[0]);
+    }
+
     let songUL = document.querySelector(".songlist").getElementsByTagName("ul")[0];
     songUL.innerHTML = "";
 
@@ -89,7 +86,7 @@ async function main() {
     // Song click event
     Array.from(document.querySelectorAll(".songlist li")).forEach(e => {
         e.addEventListener("click", () => {
-            playMusic(e.getAttribute('data-song-url'));
+            playMusic(e.getAttribute('data-song-url'), true);
         });
     });
 
@@ -104,18 +101,21 @@ async function main() {
         }
     });
 
-    // Time update event - only updates .songtime
+    // Time update event
     currentsong.addEventListener("timeupdate", () => {
         const currentTime = currentsong.currentTime;
-        const duration = currentsong.duration || 1;
+        const duration = currentsong.duration || 0;
         
         document.querySelector(".songtime").innerHTML = `
             <span style="font-size: 12px; opacity: 0.7;">
                 ${formatTime(currentTime)} / ${duration ? formatTime(duration) : '--:--'}
             </span>`;
-
-        const progressPercent = (currentTime / duration) * 100;
-        document.querySelector(".playbar-progress").style.width = `${progressPercent}%`;
+        
+        // Update progress bar
+        if (duration > 0) {
+            const progressPercent = (currentTime / duration) * 100;
+            document.querySelector(".playbar-progress").style.width = `${progressPercent}%`;
+        }
     });
 
     // When song ends
