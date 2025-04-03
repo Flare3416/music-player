@@ -21,7 +21,7 @@ body {
     justify-content: space-between;
     background-color: #000000;
     padding: 12px 24px;
-    height: 8vh;
+    height: 8dvh;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     position: sticky;
     top: 0;
