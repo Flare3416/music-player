@@ -125,20 +125,20 @@ async function updateSongList() {
     });
 }
 
-async function switchFolder(folder) {
-    songs = await getsongs(folder);
+async function switchFolder(folder,shouldAutoplay = false) {
+    songs = await getsongs(folder,shouldAutoplay);
     await updateSongList();
     
     // Load first song of the new folder but don't autoplay
     if (songs.length > 0) {
-        playMusic(songs[0], false); // Changed to false to prevent autoplay
+        playMusic(songs[0]); 
     }
 }
 
 // Main initialization function
 async function main() {
     // Initialize with the default folder
-    await switchFolder("songs/City%20Pop");
+    await switchFolder("songs/City%20Pop",false);
     
     // Add click event listeners to all album cards
     document.querySelectorAll(".card").forEach(card => {
@@ -150,7 +150,7 @@ async function main() {
             const folderPath = `songs/${encodeURIComponent(albumName)}`;
             
             // Switch to the folder without autoplay
-            await switchFolder(folderPath);
+            await switchFolder(folderPath,true);
         });
     });
 
