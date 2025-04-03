@@ -5,6 +5,7 @@
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #555555 #121212;
+  border-right: 1px solid #333333;
 }
 
 .libnav {
@@ -152,6 +153,7 @@
       display: block;
       margin-top: 10px;
       right: 2%;
+      
   }
 
   .close img{
@@ -187,6 +189,7 @@
 @media screen and (max-width: 650px) {
   .sidebar {
     width: 70vw;
+    height: 60dvh;
   }
 
   .libnav {
