@@ -21,7 +21,6 @@ A web music player with a clean UI and smooth playback controls.
 - **Icons**: Custom SVG icons
 - **Hosting**: GitHub Pages (for demo)
 
-```markdown
 ## Project Structure 📂
 
 <pre>
@@ -43,7 +42,6 @@ rym-music-player/
 │   └── ...
 └── README.md             # This file
 </pre>
-
 
 ## Setup & Installation ⚙️
 
