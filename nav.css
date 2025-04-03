@@ -162,7 +162,7 @@ body {
 
 .container {
     display: flex;
-    height: calc(100vh - 16vh);
+    height: calc(100dvh - 16dvh);
     gap: 5px;
 }
 

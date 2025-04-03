@@ -135,7 +135,7 @@
     .sidebar{
         position: fixed;
         width: 45vw;
-        height: 84vh;
+        height: 84dvh;
         left:-100%;
         transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 100;
