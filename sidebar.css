@@ -190,7 +190,7 @@
 @media screen and (max-width: 650px) {
   .sidebar {
     width: 70vw;
-    height: 65dvh;
+    height: 75dvh;
   }
 
   .libnav {

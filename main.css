@@ -175,7 +175,7 @@
 @media screen and (max-width: 650px) {
     .main-content {
         width: 100%;
-        height: 65dvh;
+        height: 75dvh;
     }
 }
 @media screen and (max-width: 480px) {
