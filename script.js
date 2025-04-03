@@ -178,11 +178,13 @@ async function main() {
     
     document.querySelector(".hamburger").addEventListener("click",()=>{
         document.querySelector(".sidebar").style.left="0";
+        document.querySelector(".hamburger").style.display="none";
     });
 
     //adding event-listener for close icon
     document.querySelector(".close").addEventListener("click",()=>{
         document.querySelector(".sidebar").style.left="-100%";
+        document.querySelector(".hamburger").style.display="block";
     });
 }
 

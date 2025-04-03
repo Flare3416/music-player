@@ -15,10 +15,12 @@
     margin: 20px 0;
     gap: 8px;
     align-items: center;
+    
 }
 
 .hamburger{
     display: none;
+    top: calc(8vh + 10px);
 }
 
 .playlist span {
@@ -119,17 +121,18 @@
     }
     .hamburger {
         display: block;
-
+        position: fixed;
+        z-index: 1000;
     }
 
     .hamburger img{
-        width: 6vw;
+        width: 4vw;
     }
     .hamburger:hover{
         transform: scale(1.1);
     }
     .playlist span{
-        margin-left: 20px;
+        margin-left: 70px;
     }
 }
 
@@ -141,7 +144,10 @@
     .cardcontainer {
         grid-template-columns: repeat(3, 1fr);
     }
-
+    .hamburger img{
+        width: 6vw;
+    }
+    
 }
 
 @media screen and (max-width: 768px) {
@@ -162,7 +168,7 @@
         right: 20%;
     }
     .hamburger img{
-        width: 9vw;
+        width: 7vw;
     }
 }
 
