@@ -21,26 +21,29 @@ A web music player with a clean UI and smooth playback controls.
 - **Icons**: Custom SVG icons
 - **Hosting**: GitHub Pages (for demo)
 
+```markdown
 ## Project Structure 📂
-rym-music-player/
-├── index.html # Main HTML file
-├── script.js # Player logic
-├── styles/
-│ ├── nav.css # Navigation bar styles
-│ ├── sidebar.css # Playlist sidebar styles
-│ ├── main.css # Main content styles
-│ └── control.css # Player controls styles
-├── img/ # Album cover art
-│ ├── City Pop.jpg
-│ ├── Rap.jpg
-│ └── ...
-├── svg/ # SVG icons
-│ ├── play.svg
-│ ├── pause.svg
-│ └── ...
-└── README.md # This file
 
-Copy
+<pre>
+rym-music-player/
+├── index.html            # Main HTML file
+├── script.js             # Player logic
+├── styles/
+│   ├── nav.css           # Navigation bar styles
+│   ├── sidebar.css       # Playlist sidebar styles
+│   ├── main.css          # Main content styles
+│   └── control.css       # Player controls styles
+├── img/                  # Album cover art
+│   ├── City Pop.jpg
+│   ├── Rap.jpg
+│   └── ...
+├── svg/                  # SVG icons
+│   ├── play.svg
+│   ├── pause.svg
+│   └── ...
+└── README.md             # This file
+</pre>
+
 
 ## Setup & Installation ⚙️
 
