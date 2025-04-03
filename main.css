@@ -20,7 +20,6 @@
 
 .hamburger{
     display: none;
-    top: calc(8dvh + 10px);
 }
 
 .playlist span {
@@ -121,6 +120,7 @@
     }
     .hamburger {
         display: block;
+        top: calc(8dvh + 10px);
         position: fixed;
         z-index: 1000;
         transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
