@@ -10,7 +10,6 @@ function parseTrackInfo(trackUrl) {
     return { artist, songName };
 }
 
-
 function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
@@ -18,7 +17,7 @@ function formatTime(seconds) {
 }
 
 async function getsongs(folder) {
-    currFolder=folder;
+    currFolder = folder;
     let a = await fetch(`https://api.github.com/repos/Flare3416/music-player/contents/${folder}`);
     let response = await a.json();
 
@@ -43,8 +42,11 @@ const playMusic = (track, autoplay = false) => {
         play.src = "svg/pause.svg";
     }
 
+    // Extract folder name for the image - FIXED: don't lowercase or remove all spaces
+    const folderName = currFolder.split('/').pop();
+    
     document.querySelector(".songinfo").innerHTML = `
-        <img src="img/citypop.jpg" alt="Current song" style=" border-radius: 4px; margin-right: 12px;">
+        <img src="img/${folderName}.jpg" alt="Current song" style=" border-radius: 4px; margin-right: 12px;">
         <div class="controlinfo">
             <div class="controlsong" style="font-weight: 600;">${songName}</div>
             <div style="opacity: 0.7;">${artist}</div>
@@ -56,7 +58,7 @@ const playMusic = (track, autoplay = false) => {
     `;
 }
 
-// Volume control functions gpt
+// Volume control functions
 let lastVolumeBeforeMute = 0.3; // Start with default 30%
 function setupVolumeControl() {
     const volumeIcon = document.querySelector(".volume-icon");
@@ -95,14 +97,7 @@ function setupVolumeControl() {
     });
 }
 
-async function main() {
-    songs = await getsongs("songs/citypop");
-    console.log(songs);
-    // Load first song but don't autoplay
-    if (songs.length > 0) {
-        playMusic(songs[0]);
-    }
-
+async function updateSongList() {
     let songUL = document.querySelector(".songlist").getElementsByTagName("ul")[0];
     songUL.innerHTML = "";
 
@@ -122,10 +117,40 @@ async function main() {
             </li>`;
     }
 
-    // Song click event
+    // Re-attach click events to the new list items
     Array.from(document.querySelectorAll(".songlist li")).forEach(e => {
         e.addEventListener("click", () => {
             playMusic(e.getAttribute('data-song-url'), true);
+        });
+    });
+}
+
+async function switchFolder(folder) {
+    songs = await getsongs(folder);
+    await updateSongList();
+    
+    // Load first song of the new folder but don't autoplay
+    if (songs.length > 0) {
+        playMusic(songs[0], false); // Changed to false to prevent autoplay
+    }
+}
+
+// Main initialization function
+async function main() {
+    // Initialize with the default folder
+    await switchFolder("songs/City%20Pop");
+    
+    // Add click event listeners to all album cards
+    document.querySelectorAll(".card").forEach(card => {
+        card.addEventListener("click", async () => {
+            // Get the album name directly from the span
+            const albumName = card.querySelector("span").innerText;
+            
+            // Create folder path with URL encoding for spaces
+            const folderPath = `songs/${encodeURIComponent(albumName)}`;
+            
+            // Switch to the folder without autoplay
+            await switchFolder(folderPath);
         });
     });
 
@@ -140,7 +165,7 @@ async function main() {
         }
     });
 
-    //previous and next button
+    // Previous button
     previous.addEventListener("click", () => {
         if (songs.length === 0) return;
         
@@ -159,7 +184,7 @@ async function main() {
         playMusic(songs[prevIndex], true);
     });
     
-    // Next button - fixed without new variables
+    // Next button
     next.addEventListener("click", () => {
         if (songs.length === 0) return;
         
@@ -177,6 +202,7 @@ async function main() {
         const nextIndex = (currentIndex + 1) % songs.length;
         playMusic(songs[nextIndex], true);
     });
+
     // Time update event
     currentsong.addEventListener("timeupdate", () => {
         const currentTime = currentsong.currentTime;
@@ -195,7 +221,7 @@ async function main() {
         }
     });
 
-    //adding event listener to playbar
+    // Adding event listener to playbar
     document.querySelector(".playbar").addEventListener("click", e => {
         const playbar = e.currentTarget;
         const rect = playbar.getBoundingClientRect();
@@ -214,14 +240,13 @@ async function main() {
 
     setupVolumeControl();
 
-    //adding event-listener for hamburger icon
-
+    // Adding event-listener for hamburger icon
     document.querySelector(".hamburger").addEventListener("click", () => {
         document.querySelector(".sidebar").style.left = "0";
         document.querySelector(".hamburger").style.display = "none";
     });
 
-    //adding event-listener for close icon
+    // Adding event-listener for close icon
     document.querySelector(".close").addEventListener("click", () => {
         document.querySelector(".sidebar").style.left = "-100%";
         document.querySelector(".hamburger").style.display = "block";
