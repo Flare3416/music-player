@@ -17,7 +17,7 @@ function formatTime(seconds) {
 }
 
 async function getsongs() {
-    if (songCache && (Date.now() - songCache.timestamp < 0)) {
+    if (songCache && (Date.now() - songCache.timestamp < 3600000)) {
         console.log("Using cached songs");
         return songCache.data;
     }
