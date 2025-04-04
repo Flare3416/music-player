@@ -2,7 +2,7 @@
 
 A web music player with a clean UI and smooth playback controls.
 
-![Rym Player Screenshot](screenshot.png) *<!-- Add screenshot later -->*
+![Rym Player Screenshot](img/screenshot.png) *<!-- Add screenshot later -->*
 
 ## Features ✨
 

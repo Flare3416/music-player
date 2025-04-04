@@ -1,4 +1,3 @@
-console.log("Test");
 let currentsong = new Audio();
 let songs;
 let currentSongIndex = 0;
