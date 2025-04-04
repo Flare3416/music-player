@@ -73,7 +73,8 @@ const playMusic = (track, autoplay = false) => {
     `;
 }
 
-// Volume control functions
+
+// Volume control functions gpt
 let lastVolumeBeforeMute = 0.3; // Start with default 30%
 function setupVolumeControl() {
     const volumeIcon = document.querySelector(".volume-icon");
@@ -81,31 +82,52 @@ function setupVolumeControl() {
     const volumeProgress = document.querySelector(".volume-progress");
 
     // Initialize
-    currentsong.volume = 0.3;
+    // Apply exponential curve to initial volume
+    currentsong.volume = applyVolumeCurve(0.3);
     lastVolumeBeforeMute = 0.3;
     updateVolumeDisplay();
 
     function updateVolumeDisplay() {
-        volumeProgress.style.width = `${currentsong.volume * 100}%`;
+        // Display percentage based on linear scale for UI feedback
+        const displayPercent = getLinearPercentFromVolume(currentsong.volume) * 100;
+        volumeProgress.style.width = `${displayPercent}%`;
         volumeIcon.src = currentsong.volume === 0 ? "svg/volume-mute.svg" : "svg/volume.svg";
+    }
+
+    // Convert linear percentage to exponential volume level (human perception)
+    function applyVolumeCurve(linearPercent) {
+        // Using an exponential curve: volume = linearPercent^3
+        // This makes the volume changes more dramatic at the lower end
+        return Math.pow(linearPercent, 3);
+    }
+    
+    // Convert actual volume level back to linear percentage for UI display
+    function getLinearPercentFromVolume(volume) {
+        // Inverse of the exponential function
+        return Math.pow(volume, 1/3);
     }
 
     volumeBar.addEventListener("click", (e) => {
         const rect = volumeBar.getBoundingClientRect();
-        const percent = (e.clientX - rect.left) / rect.width;
-        currentsong.volume = Math.max(0, Math.min(1, percent));
-        lastVolumeBeforeMute = currentsong.volume; // Remember this position
+        const linearPercent = (e.clientX - rect.left) / rect.width;
+        
+        // Convert linear UI percent to exponential volume curve
+        currentsong.volume = applyVolumeCurve(Math.max(0, Math.min(1, linearPercent)));
+        
+        // Store the linear percentage for restore function
+        lastVolumeBeforeMute = linearPercent; 
+        
         updateVolumeDisplay();
     });
 
     volumeIcon.addEventListener("click", (e) => {
         e.stopPropagation();
         if (currentsong.volume === 0) {
-            // Restore to last volume instead of fixed 30%
-            currentsong.volume = lastVolumeBeforeMute;
+            // Restore to last volume using the curve
+            currentsong.volume = applyVolumeCurve(lastVolumeBeforeMute);
         } else {
-            // Before muting, remember current volume
-            lastVolumeBeforeMute = currentsong.volume;
+            // Before muting, remember current linear position
+            lastVolumeBeforeMute = getLinearPercentFromVolume(currentsong.volume);
             currentsong.volume = 0;
         }
         updateVolumeDisplay();

@@ -265,7 +265,21 @@
 }
 
 /* --- Media Queries --- */
+@media screen and (max-width: 1600px) {
+    .volume-control {
+        right: 8%;
+    }
 
+    .songbutton img {
+        width: 18px; 
+        height: 18px;
+    }
+
+    .songbutton img:nth-child(2) {
+        width: 30px;
+        height: 30px;
+    }
+}
 /* Under 992px - Tablets & Small Laptops */
 @media screen and (max-width: 992px) {
     .songinfo {
