@@ -1,0 +1,80 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE and Editor Files
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary Files
+*.tmp
+*.temp
+*.log
+*.cache
+
+# Build and Distribution
+dist/
+build/
+.next/
+.nuxt/
+
+# Environment and Config
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Local Development
+*.local
+
+# Python (if using Python for server)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Music Files (Optional - uncomment if you don't want to track music files)
+# *.mp3
+# *.wav
+# *.flac
+# *.m4a
+# *.aac
+
+# Large Image Files (Optional - uncomment if you have large images)
+# *.psd
+# *.ai
+
+# Test Files
+test-*.html
+test-*.js
+
+# Backup Files
+*.bak
+*.backup
+*.old
+
+# Auto-generated Files
+playlists.json.backup

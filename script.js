@@ -16,12 +16,30 @@ function formatTime(seconds) {
 }
 
 async function getPlaylists() {
+    // Check if we're running locally (file:// or localhost)
+    const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (isLocal) {
+        console.log("Running locally, trying JSON file first...");
+        try {
+            const jsonPlaylists = await getJsonPlaylists();
+            if (jsonPlaylists && jsonPlaylists.length > 0) {
+                return jsonPlaylists;
+            }
+        } catch (error) {
+            console.log("JSON file not available locally, using hardcoded fallback");
+        }
+        // If JSON fails locally, use hardcoded playlists
+        return getHardcodedPlaylists();
+    }
+    
     try {
-        // First, try to get playlists from GitHub API (for production)
+        // For production (GitHub Pages), try GitHub API first
         const response = await fetch(`https://api.github.com/repos/Flare3416/music-player/contents/songs`);
         
         if (!response.ok) {
             // If GitHub API fails, fall back to hardcoded playlists for local development
+            console.log("GitHub API not available, using local fallback");
             return getHardcodedPlaylists();
         }
         
@@ -43,12 +61,21 @@ async function getPlaylists() {
                     .filter(item => item.name.endsWith(".mp3"))
                     .map(item => `https://raw.githubusercontent.com/Flare3416/music-player/main/songs/${folder.name}/${item.name}`);
                 
+                // Only include folders that have MP3 files
+                if (songs.length === 0) {
+                    console.log(`Skipping folder ${folder.name} - no MP3 files found`);
+                    continue;
+                }
+                
                 // Find first image file for thumbnail
                 const imageFile = folderData.find(item => 
                     item.name.toLowerCase().endsWith('.jpg') || 
                     item.name.toLowerCase().endsWith('.jpeg') || 
                     item.name.toLowerCase().endsWith('.png') ||
-                    item.name.toLowerCase().endsWith('.webp')
+                    item.name.toLowerCase().endsWith('.webp') ||
+                    item.name.toLowerCase().endsWith('.gif') ||
+                    item.name.toLowerCase().endsWith('.bmp') ||
+                    item.name.toLowerCase().endsWith('.svg')
                 );
                 
                 const thumbnail = imageFile 
@@ -62,6 +89,8 @@ async function getPlaylists() {
                     thumbnail: thumbnail,
                     folderPath: `songs/${folder.name}`
                 });
+                
+                console.log(`Added playlist: ${folder.name} with ${songs.length} songs`);
             } catch (folderError) {
                 console.warn(`Error fetching folder ${folder.name}:`, folderError);
                 // Continue with other folders even if one fails
@@ -70,26 +99,45 @@ async function getPlaylists() {
         
         return playlists;
     } catch (error) {
-        console.error("Error fetching playlists from GitHub:", error);
-        // Fall back to hardcoded playlists for local development
+        console.error("GitHub API error:", error);
+        // If GitHub API fails, try JSON as backup
+        return getJsonPlaylists();
+    }
+}
+
+async function getJsonPlaylists() {
+    try {
+        console.log("Loading playlists from JSON file...");
+        const response = await fetch('./playlists.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(`Loaded ${data.playlists.length} playlists from JSON (last updated: ${data.lastUpdated})`);
+        return data.playlists;
+    } catch (error) {
+        console.error("Error loading playlists from JSON:", error);
+        // Final fallback to minimal hardcoded playlists
         return getHardcodedPlaylists();
     }
 }
 
 function getHardcodedPlaylists() {
-    // Fallback for local development or when GitHub API is unavailable
+    // Final fallback with all your playlists for when both GitHub API and JSON file fail
+    console.warn("Using complete hardcoded playlists as final fallback");
     return [
-        { name: "City Pop", displayName: "City Pop", thumbnail: "songs/City Pop/thumbnail.jpg", folderPath: "songs/City%20Pop" },
-        { name: "Rap", displayName: "Rap", thumbnail: "songs/Rap/thumbnail.jpg", folderPath: "songs/Rap" },
-        { name: "JPOP", displayName: "JPOP", thumbnail: "songs/JPOP/thumbnail.jpg", folderPath: "songs/JPOP" },
-        { name: "Hyper Pop", displayName: "Hyper Pop", thumbnail: "songs/Hyper Pop/thumbnail.jpg", folderPath: "songs/Hyper%20Pop" },
-        { name: "2000s Mix", displayName: "2000s Mix", thumbnail: "songs/2000s Mix/thumbnail.jpg", folderPath: "songs/2000s%20Mix" },
-        { name: "Metal", displayName: "Metal", thumbnail: "songs/Metal/thumbnail.jpg", folderPath: "songs/Metal" },
-        { name: "Phonk", displayName: "Phonk", thumbnail: "songs/Phonk/thumbnail.jpg", folderPath: "songs/Phonk" },
-        { name: "Indie", displayName: "Indie", thumbnail: "songs/Indie/thumbnail.jpg", folderPath: "songs/Indie" },
-        { name: "Rock", displayName: "Rock", thumbnail: "songs/Rock/thumbnail.jpg", folderPath: "songs/Rock" },
-        { name: "Runaway", displayName: "Runaway", thumbnail: "songs/Runaway/thumbnail.jpg", folderPath: "songs/Runaway" },
-        { name: "Video Game", displayName: "Video Game", thumbnail: "songs/Video Game/thumbnail.jpg", folderPath: "songs/Video%20Game" }
+        { name: "2000s Mix", displayName: "2000s Mix", thumbnail: "default.jpg", folderPath: "songs/2000s Mix" },
+        { name: "City Pop", displayName: "City Pop", thumbnail: "default.jpg", folderPath: "songs/City Pop" },
+        { name: "Hyper Pop", displayName: "Hyper Pop", thumbnail: "default.jpg", folderPath: "songs/Hyper Pop" },
+        { name: "Indie", displayName: "Indie", thumbnail: "default.jpg", folderPath: "songs/Indie" },
+        { name: "JPOP", displayName: "JPOP", thumbnail: "default.jpg", folderPath: "songs/JPOP" },
+        { name: "Metal", displayName: "Metal", thumbnail: "default.jpg", folderPath: "songs/Metal" },
+        { name: "Phonk", displayName: "Phonk", thumbnail: "default.jpg", folderPath: "songs/Phonk" },
+        { name: "Rap", displayName: "Rap", thumbnail: "default.jpg", folderPath: "songs/Rap" },
+        { name: "Rock", displayName: "Rock", thumbnail: "default.jpg", folderPath: "songs/Rock" },
+        { name: "Runaway", displayName: "Runaway", thumbnail: "default.jpg", folderPath: "songs/Runaway" },
+        { name: "Video Game", displayName: "Video Game", thumbnail: "default.jpg", folderPath: "songs/Video Game" },
+        { name: "Test", displayName: "Test", thumbnail: "default.jpg", folderPath: "songs/Test" }
     ];
 }
 
@@ -107,6 +155,12 @@ async function getsongs(folder) {
     try {
         // Only call API if no cache exists
         const response = await fetch(`https://api.github.com/repos/Flare3416/music-player/contents/${folder}`);
+        
+        if (!response.ok) {
+            // If GitHub API fails, use local fallback
+            return getLocalSongs(folder);
+        }
+        
         const data = await response.json();
         
         // Extract songs
@@ -120,8 +174,73 @@ async function getsongs(folder) {
         return songs;
     } catch (error) {
         console.error("API Error:", error);
-        return []; // Return empty array if both API and cache fail
+        // Fall back to local songs
+        return getLocalSongs(folder);
     }
+}
+
+function getLocalSongs(folder) {
+    // Fallback song lists for local development
+    const localSongs = {
+        "songs/City Pop": [
+            "songs/City Pop/Tatsuro Yamashita-Christmas Eve.mp3",
+            "songs/City Pop/Tatsuro Yamashita-Goodbye Summer Days.mp3",
+            "songs/City Pop/Tatsuro Yamashita-Ride on Time.mp3"
+        ],
+        "songs/Rap": [
+            "songs/Rap/Chief Keef-Love Sosa.mp3",
+            "songs/Rap/Drake-Headlines.mp3",
+            "songs/Rap/Travis Scott -SICKO MODE.mp3"
+        ],
+        "songs/JPOP": [
+            "songs/JPOP/Aimer-Kataomoi.mp3",
+            "songs/JPOP/Radwimps-Hyperventilation.mp3",
+            "songs/JPOP/Radwimps-Oshakashama.mp3",
+            "songs/JPOP/Vaundy-Napori.mp3"
+        ],
+        "songs/Hyper Pop": [
+            "songs/Hyper Pop/2hollis-Gold.mp3",
+            "songs/Hyper Pop/Glaive-1984.mp3",
+            "songs/Hyper Pop/Tsubi Club-Laced Up.mp3"
+        ],
+        "songs/2000s Mix": [
+            "songs/2000s Mix/Céline Dion-I'm Alive.mp3",
+            "songs/2000s Mix/Dido-Thank You.mp3",
+            "songs/2000s Mix/Kanye West-Good Life.mp3"
+        ],
+        "songs/Metal": [
+            "songs/Metal/AC DC-Thunderstruck.mp3",
+            "songs/Metal/Avenged Sevenfold-Hail To The King.mp3",
+            "songs/Metal/Led Zeppelin-Immigrant Song.mp3"
+        ],
+        "songs/Phonk": [
+            "songs/Phonk/Saint Punk-Empty Bed.mp3",
+            "songs/Phonk/Zyzz Music-Malo Tebya.mp3"
+        ],
+        "songs/Indie": [
+            "songs/Indie/Marina-The State of Dreamin.mp3",
+            "songs/Indie/Passion Pit-Take a Walk.mp3",
+            "songs/Indie/The Jungle Giants-Feel The Way I Do.mp3"
+        ],
+        "songs/Rock": [
+            "songs/Rock/Bee Gees-Stayin' Alive.mp3",
+            "songs/Rock/Green Day-21 Guns.mp3",
+            "songs/Rock/Nirvana-Smells Like Teen Spirit.mp3"
+        ],
+        "songs/Runaway": [
+            "songs/Runaway/Kanye West-Runaway.mp3"
+        ],
+        "songs/Video Game": [
+            "songs/Video Game/Halo-Theme Song.mp3",
+            "songs/Video Game/Pokemon BlueRed-Lavender Town.mp3",
+            "songs/Video Game/Rosa Walton-Cyberpunk Edgerunner.mp3"
+        ],
+        "songs/Test": [
+            "songs/Test/Kanye West-Runaway.mp3"
+        ]
+    };
+    
+    return localSongs[folder] || [];
 }
 
 const playMusic = (track, autoplay = false, thumbnail = null) => {
@@ -286,9 +405,69 @@ async function updateSongList() {
     // Re-attach click events to the new list items
     Array.from(document.querySelectorAll(".songlist li")).forEach(e => {
         e.addEventListener("click", () => {
-            playMusic(e.getAttribute('data-song-url'), true);
+            playMusic(e.getAttribute('data-song-url'), true, getCurrentThumbnail());
         });
     });
+}
+
+// Helper function to compare song URLs (works for both local and remote)
+function compareSongUrls(url1, url2) {
+    if (!url1 || !url2) return false;
+    
+    try {
+        // Try to compare as URLs first
+        return new URL(url1).href === new URL(url2).href;
+    } catch (e) {
+        // Fallback for local files - normalize and compare
+        const normalize = (url) => {
+            return url.replace(/\\/g, '/')
+                     .replace(/%20/g, ' ')
+                     .toLowerCase()
+                     .trim();
+        };
+        
+        const normalized1 = normalize(url1);
+        const normalized2 = normalize(url2);
+        
+        // Try exact match first
+        if (normalized1 === normalized2) return true;
+        
+        // Try comparing just the filename
+        const filename1 = normalized1.split('/').pop();
+        const filename2 = normalized2.split('/').pop();
+        
+        return filename1 === filename2;
+    }
+}
+
+// Helper function to get current thumbnail
+function getCurrentThumbnail() {
+    // Try to find the card by exact folder match first
+    let currentCard = document.querySelector(".card[data-folder='" + currFolder + "']");
+    
+    // If not found, try to find by folder name (handle URL encoding issues)
+    if (!currentCard) {
+        const folderName = currFolder.split('/').pop();
+        const cards = document.querySelectorAll(".card");
+        
+        for (const card of cards) {
+            const cardFolder = card.getAttribute("data-folder");
+            const cardFolderName = cardFolder.split('/').pop();
+            
+            // Compare normalized folder names
+            if (normalizeString(folderName) === normalizeString(cardFolderName)) {
+                currentCard = card;
+                break;
+            }
+        }
+    }
+    
+    return currentCard ? currentCard.getAttribute("data-thumbnail") : null;
+}
+
+// Helper function to normalize strings for comparison
+function normalizeString(str) {
+    return str.replace(/%20/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
 }
 
 // Main initialization function
@@ -317,38 +496,49 @@ async function main() {
     previous.addEventListener("click", () => {
         if (songs.length === 0) return;
         
-        // Find current index by comparing the full URL
-        const currentIndex = songs.findIndex(song => {
-            // Compare the full URLs after normalizing
-            return new URL(song).href === new URL(currentsong.src).href;
-        });
+        console.log("Previous clicked - Current song src:", currentsong.src);
+        console.log("Available songs:", songs);
+        
+        // Find current index using better comparison
+        const currentIndex = songs.findIndex(song => compareSongUrls(song, currentsong.src));
+        
+        console.log("Found current index:", currentIndex);
         
         if (currentIndex === -1) {
             console.warn("Current song not found in playlist");
+            // If we can't find the current song, just play the last song
+            playMusic(songs[songs.length - 1], true, getCurrentThumbnail());
             return;
         }
         // Calculate previous with wrap-around
         const prevIndex = currentIndex <= 0 ? songs.length - 1 : currentIndex - 1;
-        playMusic(songs[prevIndex], true);
+        console.log("Playing previous song at index:", prevIndex);
+        playMusic(songs[prevIndex], true, getCurrentThumbnail());
     });
     
     // Next button
     next.addEventListener("click", () => {
         if (songs.length === 0) return;
         
-        // Find current index by comparing the full URL
-        const currentIndex = songs.findIndex(song => {
-            return new URL(song).href === new URL(currentsong.src).href;
-        });
+        console.log("Next clicked - Current song src:", currentsong.src);
+        console.log("Available songs:", songs);
+        
+        // Find current index using better comparison
+        const currentIndex = songs.findIndex(song => compareSongUrls(song, currentsong.src));
+        
+        console.log("Found current index:", currentIndex);
         
         if (currentIndex === -1) {
             console.warn("Current song not found in playlist");
+            // If we can't find the current song, just play the first song
+            playMusic(songs[0], true, getCurrentThumbnail());
             return;
         }
         
         // Calculate next with wrap-around
         const nextIndex = (currentIndex + 1) % songs.length;
-        playMusic(songs[nextIndex], true);
+        console.log("Playing next song at index:", nextIndex);
+        playMusic(songs[nextIndex], true, getCurrentThumbnail());
     });
 
     // Time update event
@@ -384,6 +574,25 @@ async function main() {
     // When song ends
     currentsong.addEventListener("ended", () => {
         play.src = "svg/PandP.svg";
+        
+        // Auto-play next song
+        if (songs.length > 0) {
+            console.log("Song ended - finding next song");
+            const currentIndex = songs.findIndex(song => compareSongUrls(song, currentsong.src));
+            
+            console.log("Current index for auto-play:", currentIndex);
+            
+            if (currentIndex !== -1) {
+                // Calculate next with wrap-around
+                const nextIndex = (currentIndex + 1) % songs.length;
+                console.log("Auto-playing next song at index:", nextIndex);
+                playMusic(songs[nextIndex], true, getCurrentThumbnail());
+            } else {
+                // If we can't find current song, just play the first one
+                console.log("Could not find current song, playing first song");
+                playMusic(songs[0], true, getCurrentThumbnail());
+            }
+        }
     });
 
     setupVolumeControl();

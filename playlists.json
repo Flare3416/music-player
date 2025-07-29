@@ -1,0 +1,126 @@
+{
+  "playlists": [
+    {
+      "name": "2000s Mix",
+      "displayName": "2000s Mix",
+      "thumbnail": "songs/2000s Mix/thumbnail.jpg",
+      "folderPath": "songs/2000s Mix",
+      "songs": [
+        "songs/2000s Mix/Céline Dion-I'm Alive.mp3",
+        "songs/2000s Mix/Dido-Thank You.mp3",
+        "songs/2000s Mix/Kanye West-Good Life.mp3"
+      ]
+    },
+    {
+      "name": "City Pop",
+      "displayName": "City Pop",
+      "thumbnail": "songs/City Pop/thumbnail.jpg",
+      "folderPath": "songs/City Pop",
+      "songs": [
+        "songs/City Pop/Tatsuro Yamashita-Christmas Eve.mp3",
+        "songs/City Pop/Tatsuro Yamashita-Goodbye Summer Days.mp3",
+        "songs/City Pop/Tatsuro Yamashita-Ride on Time.mp3"
+      ]
+    },
+    {
+      "name": "Hyper Pop",
+      "displayName": "Hyper Pop",
+      "thumbnail": "songs/Hyper Pop/thumbnail.jpg",
+      "folderPath": "songs/Hyper Pop",
+      "songs": [
+        "songs/Hyper Pop/2hollis-Gold.mp3",
+        "songs/Hyper Pop/Glaive-1984.mp3",
+        "songs/Hyper Pop/Tsubi Club-Laced Up.mp3"
+      ]
+    },
+    {
+      "name": "Indie",
+      "displayName": "Indie",
+      "thumbnail": "songs/Indie/thumbnail.jpg",
+      "folderPath": "songs/Indie",
+      "songs": [
+        "songs/Indie/Marina-The State of Dreamin.mp3",
+        "songs/Indie/Passion Pit-Take a Walk.mp3",
+        "songs/Indie/The Jungle Giants-Feel The Way I Do.mp3"
+      ]
+    },
+    {
+      "name": "JPOP",
+      "displayName": "JPOP",
+      "thumbnail": "songs/JPOP/thumbnail.jpg",
+      "folderPath": "songs/JPOP",
+      "songs": [
+        "songs/JPOP/Aimer-Kataomoi.mp3",
+        "songs/JPOP/Radwimps-Hyperventilation.mp3",
+        "songs/JPOP/Radwimps-Oshakashama.mp3",
+        "songs/JPOP/Vaundy-Napori.mp3"
+      ]
+    },
+    {
+      "name": "Metal",
+      "displayName": "Metal",
+      "thumbnail": "songs/Metal/thumbnail.jpg",
+      "folderPath": "songs/Metal",
+      "songs": [
+        "songs/Metal/AC DC-Thunderstruck.mp3",
+        "songs/Metal/Avenged Sevenfold-Hail To The King.mp3",
+        "songs/Metal/Led Zeppelin-Immigrant Song.mp3"
+      ]
+    },
+    {
+      "name": "Phonk",
+      "displayName": "Phonk",
+      "thumbnail": "songs/Phonk/thumbnail.jpg",
+      "folderPath": "songs/Phonk",
+      "songs": [
+        "songs/Phonk/Saint Punk-Empty Bed.mp3",
+        "songs/Phonk/Zyzz Music-Malo Tebya.mp3"
+      ]
+    },
+    {
+      "name": "Rap",
+      "displayName": "Rap",
+      "thumbnail": "songs/Rap/thumbnail.jpg",
+      "folderPath": "songs/Rap",
+      "songs": [
+        "songs/Rap/Chief Keef-Love Sosa.mp3",
+        "songs/Rap/Drake-Headlines.mp3",
+        "songs/Rap/Travis Scott -SICKO MODE.mp3"
+      ]
+    },
+    {
+      "name": "Rock",
+      "displayName": "Rock",
+      "thumbnail": "songs/Rock/thumbnail.jpg",
+      "folderPath": "songs/Rock",
+      "songs": [
+        "songs/Rock/Bee Gees-Stayin' Alive.mp3",
+        "songs/Rock/Green Day-21 Guns.mp3",
+        "songs/Rock/Nirvana-Smells Like Teen Spirit.mp3"
+      ]
+    },
+    {
+      "name": "Runaway",
+      "displayName": "Runaway",
+      "thumbnail": "songs/Runaway/thumbnail.jpg",
+      "folderPath": "songs/Runaway",
+      "songs": [
+        "songs/Runaway/Kanye West-Runaway.mp3"
+      ]
+    },
+    {
+      "name": "Video Game",
+      "displayName": "Video Game",
+      "thumbnail": "songs/Video Game/thumbnail.jpg",
+      "folderPath": "songs/Video Game",
+      "songs": [
+        "songs/Video Game/Halo-Theme Song.mp3",
+        "songs/Video Game/Pokemon BlueRed-Lavender Town.mp3",
+        "songs/Video Game/Rosa Walton-Cyberpunk Edgerunner.mp3"
+      ]
+    }
+  ],
+  "lastUpdated": "2025-07-29T08:35:37.047Z",
+  "totalPlaylists": 11,
+  "totalSongs": 31
+}
