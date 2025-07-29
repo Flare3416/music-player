@@ -15,6 +15,84 @@ function formatTime(seconds) {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
+async function getPlaylists() {
+    try {
+        // First, try to get playlists from GitHub API (for production)
+        const response = await fetch(`https://api.github.com/repos/Flare3416/music-player/contents/songs`);
+        
+        if (!response.ok) {
+            // If GitHub API fails, fall back to hardcoded playlists for local development
+            return getHardcodedPlaylists();
+        }
+        
+        const data = await response.json();
+        
+        // Filter only directories (folders)
+        const folders = data.filter(item => item.type === "dir");
+        
+        const playlists = [];
+        
+        for (const folder of folders) {
+            try {
+                // Get folder contents to find songs and images
+                const folderResponse = await fetch(`https://api.github.com/repos/Flare3416/music-player/contents/songs/${folder.name}`);
+                const folderData = await folderResponse.json();
+                
+                // Find songs
+                const songs = folderData
+                    .filter(item => item.name.endsWith(".mp3"))
+                    .map(item => `https://raw.githubusercontent.com/Flare3416/music-player/main/songs/${folder.name}/${item.name}`);
+                
+                // Find first image file for thumbnail
+                const imageFile = folderData.find(item => 
+                    item.name.toLowerCase().endsWith('.jpg') || 
+                    item.name.toLowerCase().endsWith('.jpeg') || 
+                    item.name.toLowerCase().endsWith('.png') ||
+                    item.name.toLowerCase().endsWith('.webp')
+                );
+                
+                const thumbnail = imageFile 
+                    ? `https://raw.githubusercontent.com/Flare3416/music-player/main/songs/${folder.name}/${imageFile.name}`
+                    : `default.jpg`; // Fallback to default image in root
+                
+                playlists.push({
+                    name: folder.name,
+                    displayName: folder.name.replace(/%20/g, ' '), // Handle URL encoding
+                    songs: songs,
+                    thumbnail: thumbnail,
+                    folderPath: `songs/${folder.name}`
+                });
+            } catch (folderError) {
+                console.warn(`Error fetching folder ${folder.name}:`, folderError);
+                // Continue with other folders even if one fails
+            }
+        }
+        
+        return playlists;
+    } catch (error) {
+        console.error("Error fetching playlists from GitHub:", error);
+        // Fall back to hardcoded playlists for local development
+        return getHardcodedPlaylists();
+    }
+}
+
+function getHardcodedPlaylists() {
+    // Fallback for local development or when GitHub API is unavailable
+    return [
+        { name: "City Pop", displayName: "City Pop", thumbnail: "songs/City Pop/thumbnail.jpg", folderPath: "songs/City%20Pop" },
+        { name: "Rap", displayName: "Rap", thumbnail: "songs/Rap/thumbnail.jpg", folderPath: "songs/Rap" },
+        { name: "JPOP", displayName: "JPOP", thumbnail: "songs/JPOP/thumbnail.jpg", folderPath: "songs/JPOP" },
+        { name: "Hyper Pop", displayName: "Hyper Pop", thumbnail: "songs/Hyper Pop/thumbnail.jpg", folderPath: "songs/Hyper%20Pop" },
+        { name: "2000s Mix", displayName: "2000s Mix", thumbnail: "songs/2000s Mix/thumbnail.jpg", folderPath: "songs/2000s%20Mix" },
+        { name: "Metal", displayName: "Metal", thumbnail: "songs/Metal/thumbnail.jpg", folderPath: "songs/Metal" },
+        { name: "Phonk", displayName: "Phonk", thumbnail: "songs/Phonk/thumbnail.jpg", folderPath: "songs/Phonk" },
+        { name: "Indie", displayName: "Indie", thumbnail: "songs/Indie/thumbnail.jpg", folderPath: "songs/Indie" },
+        { name: "Rock", displayName: "Rock", thumbnail: "songs/Rock/thumbnail.jpg", folderPath: "songs/Rock" },
+        { name: "Runaway", displayName: "Runaway", thumbnail: "songs/Runaway/thumbnail.jpg", folderPath: "songs/Runaway" },
+        { name: "Video Game", displayName: "Video Game", thumbnail: "songs/Video Game/thumbnail.jpg", folderPath: "songs/Video%20Game" }
+    ];
+}
+
 async function getsongs(folder) {
     currFolder = folder;
     
@@ -46,7 +124,7 @@ async function getsongs(folder) {
     }
 }
 
-const playMusic = (track, autoplay = false) => {
+const playMusic = (track, autoplay = false, thumbnail = null) => {
     const { artist, songName } = parseTrackInfo(track);
     currentsong.src = track;
 
@@ -57,11 +135,17 @@ const playMusic = (track, autoplay = false) => {
         play.src = "svg/pause.svg";
     }
 
-    // Extract folder name for the image - FIXED: don't lowercase or remove all spaces
-    const folderName = currFolder.split('/').pop();
+    // Use provided thumbnail or extract folder name for the image
+    let imageSrc;
+    if (thumbnail) {
+        imageSrc = thumbnail;
+    } else {
+        const folderName = currFolder.split('/').pop();
+        imageSrc = `default.jpg`; // Fallback to default image in root
+    }
     
     document.querySelector(".songinfo").innerHTML = `
-        <img src="img/${folderName}.jpg" alt="Current song" style=" border-radius: 4px; margin-right: 12px;">
+        <img src="${imageSrc}" alt="Current song" style=" border-radius: 4px; margin-right: 12px;" onerror="this.src='default.jpg'">
         <div class="controlinfo">
             <div class="controlsong" style="font-weight: 600;">${songName}</div>
             <div style="opacity: 0.7;">${artist}</div>
@@ -134,6 +218,51 @@ function setupVolumeControl() {
     });
 }
 
+async function generatePlaylistCards() {
+    const playlists = await getPlaylists();
+    const cardContainer = document.querySelector(".cardcontainer");
+    
+    // Clear existing cards
+    cardContainer.innerHTML = "";
+    
+    // Generate cards for each playlist
+    playlists.forEach(playlist => {
+        const cardElement = document.createElement("div");
+        cardElement.className = "card";
+        cardElement.setAttribute("data-folder", playlist.folderPath);
+        cardElement.setAttribute("data-thumbnail", playlist.thumbnail);
+        
+        cardElement.innerHTML = `
+            <img src="${playlist.thumbnail}" alt="${playlist.displayName}" onerror="this.src='default.jpg'">
+            <span>${playlist.displayName}</span>
+            <img src="svg/play.svg" alt="" class="playsvg">
+        `;
+        
+        cardContainer.appendChild(cardElement);
+    });
+    
+    // Add click event listeners to the new cards
+    document.querySelectorAll(".card").forEach(card => {
+        card.addEventListener("click", async () => {
+            const folderPath = card.getAttribute("data-folder");
+            const thumbnail = card.getAttribute("data-thumbnail");
+            
+            // Switch to the folder with autoplay
+            await switchFolder(folderPath, true, thumbnail);
+        });
+    });
+}
+
+async function switchFolder(folder, shouldAutoplay = false, thumbnail = null) {
+    songs = await getsongs(folder);
+    await updateSongList();
+    
+    // Load first song of the new folder
+    if (songs.length > 0) {
+        playMusic(songs[0], shouldAutoplay, thumbnail); 
+    }
+}
+
 async function updateSongList() {
     let songUL = document.querySelector(".songlist").getElementsByTagName("ul")[0];
     songUL.innerHTML = "";
@@ -162,34 +291,16 @@ async function updateSongList() {
     });
 }
 
-async function switchFolder(folder,shouldAutoplay = false) {
-    songs = await getsongs(folder,shouldAutoplay);
-    await updateSongList();
-    
-    // Load first song of the new folder but don't autoplay
-    if (songs.length > 0) {
-        playMusic(songs[0],shouldAutoplay); 
-    }
-}
-
 // Main initialization function
 async function main() {
-    // Initialize with the default folder
-    await switchFolder("songs/City%20Pop",false);
+    // Generate dynamic playlist cards
+    await generatePlaylistCards();
     
-    // Add click event listeners to all album cards
-    document.querySelectorAll(".card").forEach(card => {
-        card.addEventListener("click", async () => {
-            // Get the album name directly from the span
-            const albumName = card.querySelector("span").innerText;
-            
-            // Create folder path with URL encoding for spaces
-            const folderPath = `songs/${encodeURIComponent(albumName)}`;
-            
-            // Switch to the folder without autoplay
-            await switchFolder(folderPath,true);
-        });
-    });
+    // Initialize with the first available playlist
+    const playlists = await getPlaylists();
+    if (playlists.length > 0) {
+        await switchFolder(playlists[0].folderPath, false, playlists[0].thumbnail);
+    }
 
     // Play/pause button
     play.addEventListener("click", () => {
