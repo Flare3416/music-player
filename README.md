@@ -14,7 +14,6 @@ A dynamic web music player with **automatic playlist generation** and a clean, m
 - 📶 Volume control with mute toggle
 - 🎼 Real-time progress bar with seek functionality
 - 📱 Responsive design (mobile-friendly)
-- 🖥️ Modern UI with light/dark theme support
 - 🌐 GitHub API integration for hosted deployment
 - 💾 Smart caching for better performance
 
