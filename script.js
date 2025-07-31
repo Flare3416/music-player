@@ -277,12 +277,13 @@ const playMusic = (track, autoplay = false, thumbnail = null) => {
 }
 
 
-// Volume control functions gpt
+// Volume control functions with drag support
 let lastVolumeBeforeMute = 0.3; // Start with default 30%
 function setupVolumeControl() {
     const volumeIcon = document.querySelector(".volume-icon");
     const volumeBar = document.querySelector(".volume-bar");
     const volumeProgress = document.querySelector(".volume-progress");
+    let isDraggingVolume = false;
 
     // Initialize
     // Apply exponential curve to initial volume
@@ -310,18 +311,40 @@ function setupVolumeControl() {
         return Math.pow(volume, 1/3);
     }
 
-    volumeBar.addEventListener("click", (e) => {
+    function updateVolumeFromPosition(e) {
         const rect = volumeBar.getBoundingClientRect();
-        const linearPercent = (e.clientX - rect.left) / rect.width;
+        const linearPercent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
         
         // Convert linear UI percent to exponential volume curve
-        currentsong.volume = applyVolumeCurve(Math.max(0, Math.min(1, linearPercent)));
+        currentsong.volume = applyVolumeCurve(linearPercent);
         
         // Store the linear percentage for restore function
         lastVolumeBeforeMute = linearPercent; 
         
         updateVolumeDisplay();
+    }
+
+    // Mouse down on volume bar - start dragging
+    volumeBar.addEventListener("mousedown", (e) => {
+        isDraggingVolume = true;
+        updateVolumeFromPosition(e);
+        e.preventDefault();
     });
+
+    // Mouse move - continue dragging if started
+    document.addEventListener("mousemove", (e) => {
+        if (isDraggingVolume) {
+            updateVolumeFromPosition(e);
+        }
+    });
+
+    // Mouse up - stop dragging
+    document.addEventListener("mouseup", () => {
+        isDraggingVolume = false;
+    });
+
+    // Click on volume bar (keep existing functionality)
+    volumeBar.addEventListener("click", updateVolumeFromPosition);
 
     volumeIcon.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -470,6 +493,46 @@ function normalizeString(str) {
     return str.replace(/%20/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
 }
 
+// Function to switch to next playlist when current playlist ends
+async function switchToNextPlaylist() {
+    try {
+        const playlists = await getPlaylists();
+        if (playlists.length <= 1) {
+            console.log("Only one playlist available, restarting current playlist");
+            // If only one playlist, restart from the beginning
+            playMusic(songs[0], true, getCurrentThumbnail());
+            return;
+        }
+        
+        // Find current playlist index
+        const currentPlaylistIndex = playlists.findIndex(playlist => 
+            normalizeString(playlist.folderPath) === normalizeString(currFolder)
+        );
+        
+        if (currentPlaylistIndex === -1) {
+            console.log("Current playlist not found, playing first playlist");
+            await switchFolder(playlists[0].folderPath, true, playlists[0].thumbnail);
+            return;
+        }
+        
+        // Get next playlist (with wrap-around)
+        const nextPlaylistIndex = (currentPlaylistIndex + 1) % playlists.length;
+        const nextPlaylist = playlists[nextPlaylistIndex];
+        
+        console.log(`Switching from playlist ${currentPlaylistIndex} to ${nextPlaylistIndex}: ${nextPlaylist.displayName}`);
+        
+        // Switch to next playlist and auto-play first song
+        await switchFolder(nextPlaylist.folderPath, true, nextPlaylist.thumbnail);
+        
+    } catch (error) {
+        console.error("Error switching to next playlist:", error);
+        // Fallback: restart current playlist
+        if (songs.length > 0) {
+            playMusic(songs[0], true, getCurrentThumbnail());
+        }
+    }
+}
+
 // Main initialization function
 async function main() {
     // Generate dynamic playlist cards
@@ -559,20 +622,42 @@ async function main() {
         }
     });
 
-    // Adding event listener to playbar
-    document.querySelector(".playbar").addEventListener("click", e => {
-        const playbar = e.currentTarget;
+    // Adding event listener to playbar for click and drag
+    const playbar = document.querySelector(".playbar");
+    let isDraggingPlaybar = false;
+    
+    function updatePlaybarPosition(e) {
         const rect = playbar.getBoundingClientRect();
         const clickPosition = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
         document.querySelector(".playbar-progress").style.width = `${clickPosition * 100}%`;
+        document.querySelector(".playbar-handle").style.left = `${clickPosition * 100}%`;
 
         if (currentsong.duration) {
             currentsong.currentTime = clickPosition * currentsong.duration;
         }
+    }
+    
+    playbar.addEventListener("mousedown", (e) => {
+        isDraggingPlaybar = true;
+        updatePlaybarPosition(e);
+        e.preventDefault();
     });
+    
+    document.addEventListener("mousemove", (e) => {
+        if (isDraggingPlaybar) {
+            updatePlaybarPosition(e);
+        }
+    });
+    
+    document.addEventListener("mouseup", () => {
+        isDraggingPlaybar = false;
+    });
+    
+    // Also keep the click functionality
+    playbar.addEventListener("click", updatePlaybarPosition);
 
     // When song ends
-    currentsong.addEventListener("ended", () => {
+    currentsong.addEventListener("ended", async () => {
         play.src = "svg/PandP.svg";
         
         // Auto-play next song
@@ -585,8 +670,15 @@ async function main() {
             if (currentIndex !== -1) {
                 // Calculate next with wrap-around
                 const nextIndex = (currentIndex + 1) % songs.length;
-                console.log("Auto-playing next song at index:", nextIndex);
-                playMusic(songs[nextIndex], true, getCurrentThumbnail());
+                
+                // Check if we're at the last song of the playlist
+                if (currentIndex === songs.length - 1) {
+                    console.log("Last song in playlist - switching to next playlist");
+                    await switchToNextPlaylist();
+                } else {
+                    console.log("Auto-playing next song at index:", nextIndex);
+                    playMusic(songs[nextIndex], true, getCurrentThumbnail());
+                }
             } else {
                 // If we can't find current song, just play the first one
                 console.log("Could not find current song, playing first song");
