@@ -18,30 +18,33 @@
     width: 25%;
 }
 
-.songinfo img{
+.songinfo img {
     width: 5.2vh;
 }
 
-.controlinfo:nth-child(2){
+.controlinfo:nth-child(2) {
     font-size: 12px;
 }
 
 .songbutton {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 24px; /* Increased gap for better spacing */
-    width: 40%;
+    gap: 24px;
+    /* Increased gap for better spacing */
     background: none;
     background-color: transparent;
     box-shadow: none;
     filter: none;
-    margin-top: 10px;
 }
 
 .songbutton img {
     display: block;
-    width: 24px; /* Set a consistent size */
+    width: 24px;
+    /* Set a consistent size */
     height: 24px;
     cursor: pointer;
     opacity: 0.8;
@@ -59,6 +62,24 @@
     height: 36px;
 }
 
+/* Loop button container - positioned next to songbutton */
+.loop-button {
+    display: flex;
+    align-items: center;
+    margin-left: 190px;
+}
+
+.loop-button img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.loop-button img:hover {
+    transform: scale(1.1);
+}
+
 /* Right side controls container */
 .right-controls {
     display: flex;
@@ -73,7 +94,7 @@
     font-size: 12px;
     justify-content: flex-end;
     align-items: center;
-    width: 150px; 
+    width: 150px;
 }
 
 /* Stable playbar with hover effects that don't shift layout */
@@ -85,6 +106,14 @@
     align-items: center;
     width: 45%;
     gap: 8px;
+}
+
+/* Horizontal container for song buttons and loop button */
+.controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
 }
 
 .playbar-container {
@@ -139,11 +168,13 @@
     width: 12px;
     height: 12px;
     opacity: 1;
-    background: #e67300; /* Darker on hover */
+    background: #e67300;
+    /* Darker on hover */
 }
 
 .playbar:active .playbar-progress::after {
-    background: #cc6600; /* Darkest when clicked */
+    background: #cc6600;
+    /* Darkest when clicked */
     transform: translateY(-50%) scale(1.1);
 }
 
@@ -164,7 +195,8 @@
 /* Visual feedback only - doesn't affect layout */
 .playbar:hover .playbar-progress {
     height: 5px;
-    margin-top: -0.5px; /* Compensate for height change */
+    margin-top: -0.5px;
+    /* Compensate for height change */
 }
 
 .playbar:active .playbar-progress {
@@ -186,7 +218,8 @@
 .volume-bar-container {
     flex-grow: 1;
     padding: 0 8px;
-    height: 24px; /* Match playbar height */
+    height: 24px;
+    /* Match playbar height */
     display: flex;
     align-items: center;
 }
@@ -194,11 +227,13 @@
 .volume-bar {
     position: relative;
     width: 100%;
-    height: 4px; /* Match playbar height */
+    height: 4px;
+    /* Match playbar height */
     background-color: rgba(60, 60, 60, 0.7);
     border-radius: 2px;
     cursor: pointer;
-    overflow: visible; /* Needed for hover effects */
+    overflow: visible;
+    /* Needed for hover effects */
 }
 
 .volume-progress {
@@ -231,11 +266,13 @@
     width: 12px;
     height: 12px;
     opacity: 1;
-    background: #e67300; /* Darker on hover */
+    background: #e67300;
+    /* Darker on hover */
 }
 
 .volume-bar:active .volume-progress::after {
-    background: #cc6600; /* Darkest when clicked */
+    background: #cc6600;
+    /* Darkest when clicked */
     transform: translateY(-50%) scale(1.1);
 }
 
@@ -271,7 +308,7 @@
     }
 
     .songbutton img {
-        width: 18px; 
+        width: 18px;
         height: 18px;
     }
 
@@ -279,7 +316,9 @@
         width: 30px;
         height: 30px;
     }
+
 }
+
 /* Under 992px - Tablets & Small Laptops */
 @media screen and (max-width: 992px) {
     .songinfo {
@@ -304,11 +343,21 @@
         right: 12%;
     }
 
-    .controlsong{
+    .controlsong {
         font-size: small;
     }
-    .controlinfo:nth-child(2){
+
+    .controlinfo:nth-child(2) {
         font-size: 10px;
+    }
+
+    .loop-button {
+        margin-left: 145px;
+    }
+
+    .loop-button img {
+        width: 16px;
+    
     }
 }
 
@@ -329,14 +378,18 @@
         justify-content: center;
         text-align: center;
     }
-    .songinfo img{
+
+    .songinfo img {
         width: 10vh;
     }
+
     .songbutton {
         width: 100%;
         gap: 16px;
         justify-content: center;
     }
+
+    
 
     .songbutton img {
         width: 24px;
@@ -361,6 +414,10 @@
         align-items: center;
     }
 
+    .controls-row {
+        justify-content: center;
+    }
+
     .playbar-container {
         width: 90%;
         padding: 0;
@@ -382,13 +439,24 @@
         font-size: 12px;
     }
 
-    .controlimg{
+    .controlimg {
         height: 10dvh;
     }
-    .controlsong{
+
+    .controlsong {
         font-size: medium;
     }
-    .controlinfo:nth-child(2){
+
+    .controlinfo:nth-child(2) {
         font-size: x-small;
+    }
+
+    .loop-button {
+        margin-left: 170px;
+    }
+
+    .loop-button img {
+        width: 20px;
+    
     }
 }
