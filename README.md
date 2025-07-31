@@ -2,7 +2,7 @@
 
 A dynamic web music player with **automatic playlist generation** and a clean, modern UI.
 
-![Rym Player Screenshot](img/screenshot.png) *<!-- Add screenshot later -->*
+![Rym Player Screenshot](screenshot.png) *<!-- Add screenshot later -->*
 
 ## Features ✨
 
