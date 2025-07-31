@@ -2,6 +2,13 @@ let currentsong = new Audio();
 let songs;
 let currentSongIndex = 0;
 let currFolder;
+let isLoopEnabled = false;
+
+// Control elements
+const play = document.querySelector("#play");
+const previous = document.querySelector("#previous");
+const next = document.querySelector("#next");
+const loop = document.querySelector("#loop");
 
 function parseTrackInfo(trackUrl) {
     const displayName = trackUrl.split('/').pop().replaceAll("%20", " ").replaceAll(".mp3", "");
@@ -555,6 +562,13 @@ async function main() {
         }
     });
 
+    // Loop button
+    loop.addEventListener("click", () => {
+        isLoopEnabled = !isLoopEnabled;
+        loop.style.opacity = isLoopEnabled ? "1" : "0.4";
+        console.log("Loop mode:", isLoopEnabled ? "enabled" : "disabled");
+    });
+
     // Previous button
     previous.addEventListener("click", () => {
         if (songs.length === 0) return;
@@ -580,7 +594,7 @@ async function main() {
     });
     
     // Next button
-    next.addEventListener("click", () => {
+    next.addEventListener("click", async () => {
         if (songs.length === 0) return;
         
         console.log("Next clicked - Current song src:", currentsong.src);
@@ -598,10 +612,23 @@ async function main() {
             return;
         }
         
-        // Calculate next with wrap-around
-        const nextIndex = (currentIndex + 1) % songs.length;
-        console.log("Playing next song at index:", nextIndex);
-        playMusic(songs[nextIndex], true, getCurrentThumbnail());
+        // Check if we're at the last song of the playlist
+        if (currentIndex === songs.length - 1) {
+            if (isLoopEnabled) {
+                // Loop back to first song of current playlist
+                console.log("Loop enabled - playing first song of current playlist");
+                playMusic(songs[0], true, getCurrentThumbnail());
+            } else {
+                // Switch to next playlist
+                console.log("Loop disabled - switching to next playlist");
+                await switchToNextPlaylist();
+            }
+        } else {
+            // Calculate next song in current playlist
+            const nextIndex = currentIndex + 1;
+            console.log("Playing next song at index:", nextIndex);
+            playMusic(songs[nextIndex], true, getCurrentThumbnail());
+        }
     });
 
     // Time update event
@@ -668,14 +695,20 @@ async function main() {
             console.log("Current index for auto-play:", currentIndex);
             
             if (currentIndex !== -1) {
-                // Calculate next with wrap-around
-                const nextIndex = (currentIndex + 1) % songs.length;
-                
                 // Check if we're at the last song of the playlist
                 if (currentIndex === songs.length - 1) {
-                    console.log("Last song in playlist - switching to next playlist");
-                    await switchToNextPlaylist();
+                    if (isLoopEnabled) {
+                        // Loop back to first song of current playlist
+                        console.log("Loop enabled - auto-playing first song of current playlist");
+                        playMusic(songs[0], true, getCurrentThumbnail());
+                    } else {
+                        // Switch to next playlist
+                        console.log("Loop disabled - switching to next playlist");
+                        await switchToNextPlaylist();
+                    }
                 } else {
+                    // Play next song in current playlist
+                    const nextIndex = currentIndex + 1;
                     console.log("Auto-playing next song at index:", nextIndex);
                     playMusic(songs[nextIndex], true, getCurrentThumbnail());
                 }
