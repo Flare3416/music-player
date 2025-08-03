@@ -292,12 +292,5 @@ music-player/
 3. Add your music playlists or code improvements
 4. Submit a pull request
 
-## License 📄
 
-This project is open source and available under the [MIT License](LICENSE).
 
-## Acknowledgments 🙏
-
-- Icons and UI inspiration from modern music players
-- GitHub API for seamless playlist management
-- Web Audio API for smooth playback experience
